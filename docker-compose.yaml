@@ -1,0 +1,118 @@
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: joaovitor98/bangalo-app
+    container_name: app
+    tty: true
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - bangalo
+    environment:
+      - APPLICATION_KEY=Plk6JcBo3MQ485PEeWAHTbJH342ASDAS+cPd7Ikn
+      - APPLICATION_PORT=3000
+      - APPLICATION_PAYMENT_KEY=lk6JcBo3MQ485PEeWAHTbJHUtJrTq+cPd7Ikn
+      - NODE_ENV=development
+      - MARIADB_USER=application
+      - MARIADB_DATABASE=bangalo
+      - MARIADB_ROOT_PASSWORD=da21zg53
+      - MARIADB_PASSWORD=da21zg52
+      - MARIADB_PORT=3306
+      - MARIADB_DIALECT=mariadb
+      - MARIADB_HOST=database
+      - STORAGE_SERVICE=http://storage:4000/v1
+      - PAYMENT_SERVICE=http://payment:5000
+    depends_on:
+      - database
+      # - payment
+      - storage
+      - redis
+  database:
+    image: mariadb:10.5
+    container_name: database
+    command: --innodb-use-native-aio=0
+    ports:
+      - 3306:3306
+    volumes:
+      - ./cache/database:/var/lib/mysql
+    networks:
+      - bangalo
+    environment:
+      - MARIADB_USER=application
+      - MARIADB_DATABASE=bangalo
+      - MARIADB_PASSWORD=da21zg52
+      - MARIADB_ROOT_PASSWORD=da21zg53
+      - TZ=America/Sao_Paulo
+    tty: true
+    restart: unless-stopped
+  storage:
+    build:
+      context: ./plugins/storage
+      dockerfile: Dockerfile
+    image: joaovitor98/storage-app
+    container_name: storage
+    tty: true
+    environment:
+      - APPLICATION_STORAGE_PORT=4000
+      - APPLICATION_STORAGE_ACCESS=http://localhost:3000
+    volumes:
+      - ./plugins/storage:/usr/src/storage
+    ports:
+      - 4000:4000
+    networks:
+      - bangalo
+    restart: unless-stopped
+  # payment:
+  #   build:
+  #     context: ./plugins/payment
+  #     dockerfile: Dockerfile
+  #   image: joaovitor98/payment-middleware
+  #   container_name: payment
+  #   networks:
+  #     - bangalo
+  #   ports:
+  #     - 5000:5000
+  #     - 5001:5001
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./plugins/payment:/usr/src/payment
+  #   tty: true
+  #   environment:
+  #     - PAYMENT_APPLICATION_KEY=lk6JcBo3MQ485PEeWAHTbJHUtJrTq+cPd7Ikn
+  #     - PAYMENT_APPLICATION_PORT=5000
+  #     - PAYMENT_APPLICAITON_ACCESS=http://app:3000
+  #     - PAYMENT_APPLICATION_URL=https://checkout.infinitepay.io/bangalo-sushi
+  #     - PAYMENT_APPLICATION_URL_CHECK=https://api.infinitepay.io/invoices/public/checkout/payment_check/bangalo-sushi
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6380:6379
+    networks:
+      - bangalo
+    volumes:
+      - /cache/redis:/data
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: joaovitor98/nginx
+    container_name: nginx
+    ports:
+      - 8080:80
+    networks:
+      - bangalo
+    tty: true
+    restart: unless-stopped
+    depends_on:
+      - app
+
+networks:
+  bangalo:
+    driver: bridge
