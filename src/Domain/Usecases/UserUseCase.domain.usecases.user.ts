@@ -3,7 +3,9 @@ import argon2 from "argon2"
 import { User } from "../Entities/User.domain.entities"
 
 export interface IUserRepository {
-  save: (user: User) => Promise<User|string>
+  save: (user: User) => Promise<User|string>,
+  users: () => Promise<User[]|string>,
+  user: (id: string) => Promise<User|string>,
 }
 
 @injectable({})
@@ -12,7 +14,7 @@ export class UserUseCase {
     @inject("IUserRepository") private repository: IUserRepository
   ) {}
 
-  async execute (user: User) {
+  async save (user: User) {
     if (!user.valid()) throw new Error("Os dados do usuário estão invalidos, verifique-os.");
 
     const PASSWORD_ENCRYPTED = await argon2.hash(user.password)
@@ -23,5 +25,9 @@ export class UserUseCase {
     }
 
     return await this.repository.save(dto as User)
+  }
+
+  async findAll () {
+    return await this.repository.users()
   }
 }

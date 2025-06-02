@@ -63,4 +63,4 @@ export const OrderModel = Database.define(
     timestamps: true,
     underscored: false
   }
-)
+);

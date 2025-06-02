@@ -4,6 +4,6 @@ import { INotification } from "../../Domain/Usecases/Ports/NotificationsPort.dom
 @injectable()
 export class NotificationServiceAdapter implements INotification {
   send (data: Record<string, string|number|boolean>) {
-    return new Promise((resolve) => resolve(data))
+    return new Promise((resolve) => resolve(data));
   }
 }

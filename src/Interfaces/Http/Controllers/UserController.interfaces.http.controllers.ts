@@ -23,25 +23,41 @@ export class UserController {
 
   async createUser ({ body, set }: Context) {
     try {
-      const DTO = body as User
+      const dto = body as User
       const PAYLOAD = new User(
-        DTO.email,
-        DTO.password,
-        DTO.details,
-      )
+        dto.email,
+        dto.password,
+        dto.details,
+      );
 
-      const responseService = await this._userService.create(PAYLOAD)
+      const responseService = await this._userService.create(PAYLOAD);
 
       if (/^(error-create-user)$/i.test(String(responseService.codigo))) {
-        set.status = 400
-        return responseService
+        set.status = 400;
+        return responseService;
       }
 
-      return responseService
+      return responseService;
     } catch (error) {
-      set.status = 500
-      console.error("ERROR - OrderController", error)
-      return "Erro Server"
+      set.status = 500;
+      console.error("ERROR - OrderController", error);
+      return "Erro Server";
+    }
+  }
+
+  async findAllUsers ({ set }: Context) {
+    try {
+      const responseService = await this._userService.findall();
+      if (/^(error-create-user)$/i.test(String(responseService.codigo))) {
+        set.status = 400;
+        return responseService;
+      }
+
+      return responseService;
+    } catch (error) {
+      set.status = 500;
+      console.error("ERROR - OrderController", error);
+      return "Erro Server";
     }
   }
 }

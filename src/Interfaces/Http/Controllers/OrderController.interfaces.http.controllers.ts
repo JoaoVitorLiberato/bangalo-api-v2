@@ -23,31 +23,31 @@ export class OrderController {
 
   async createOrder ({ body, set }: Context) {
     try {
-      const DTO = body as Order
+      const dto = body as Order
       const PAYLOAD = new Order(
-        DTO.canal,
-        DTO.status,
-        DTO.nome,
-        DTO.segmento,
-        DTO.telefone,
-        DTO.mensagem,
-        DTO.produtos,
-        DTO.pagamento,
-        DTO.endereco,
-        DTO.analytics
-      )
+        dto.canal,
+        dto.status,
+        dto.nome,
+        dto.segmento,
+        dto.telefone,
+        dto.mensagem,
+        dto.produtos,
+        dto.pagamento,
+        dto.endereco,
+        dto.analytics
+      );
 
-      const ResponseService = await this._orderService.create(PAYLOAD)
+      const ResponseService = await this._orderService.create(PAYLOAD);
       if (/^(erro-create-order)$/i.test(String(ResponseService.codigo))) {
-        set.status = 400
-        return ResponseService
+        set.status = 400;
+        return ResponseService;
       }
 
-      return ResponseService
+      return ResponseService;
     } catch (error) {
-      set.status = 500
-      console.error("ERROR - OrderController", error)
-      return "Erro Server"
+      set.status = 500;
+      console.error("ERROR - OrderController", error);
+      return "Erro Server";
     }
   }
 }

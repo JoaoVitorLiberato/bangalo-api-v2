@@ -11,6 +11,6 @@ export class OrderRepository implements IOrderRepository {
       OrderModel.create({ ...order })
         .then((responseModel) => resolve(responseModel as unknown as Order))
         .catch((error) => resolve(`error-create-order-model`))
-    })
+    });
   }
 }

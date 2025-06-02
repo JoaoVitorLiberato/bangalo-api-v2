@@ -35,4 +35,4 @@ export const UserModel = Database.define(
     timestamps: true,
     underscored: false
   }
-)
+);

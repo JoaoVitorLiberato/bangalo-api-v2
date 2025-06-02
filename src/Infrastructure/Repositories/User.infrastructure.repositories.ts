@@ -10,9 +10,34 @@ export class UserRepository implements IUserRepository {
       UserModel.create({ ...user })
         .then((responseModel) => resolve(responseModel as unknown as User))
         .catch((error) => {
-          console.log("err", error)
+          console.log("[ERROR UserRepository]", error)
           resolve(`error-create-user-models`)
         })
+    })
+  }
+
+  async users (): Promise<User[]|string> {
+    return new Promise((resolve) => {
+      UserModel.findAll({
+        limit: 20,
+        attributes: {
+          exclude: ["password"]
+        }
+      })
+        .then((responseModel) => resolve(responseModel as unknown as User[]))
+        .catch(() => resolve("error-find-users-models"))
+    })
+  }
+
+  async user (id: string): Promise<User|string> {
+    return new Promise((resolve) => {
+      UserModel.findByPk(id, {
+        attributes: {
+          exclude: ["password", "id"]
+        }
+      })
+        .then((responseModel) => resolve(responseModel as unknown as User))
+        .catch(() => resolve("error-find-users-models"))
     })
   }
 }
