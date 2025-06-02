@@ -1,13 +1,12 @@
 
 import { container } from "tsyringe";
-import { NotificationServiceAdapter } from "../../../Application/Adapters/NotificationAdapter.application.adapters";
+import { Context } from "elysia";
+import { NotificationServiceAdapter } from "../../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters";
 import { OrderService } from "../../../Application/Services/OrderService.application.service";
 import { OrderUseCase } from "../../../Domain/Usecases/OrderUsecase.domain.usecases.order";
-import { OrderRepository } from "../../../Infrastructure/Repositories/Order/Order.infrastructure.repositories.order";
-import { Context } from "elysia";
+import { OrderRepository } from "../../../Infrastructure/Repositories/Order.infrastructure.repositories";
 import { Order } from "../../../Domain/Entities/Order.domain.entities";
-import { Order_channel, RedisClient } from "../../../Infrastructure/Redis/Redis.infrastructure.repositories.redis";
-import { IOrderRepository } from "../../../Application/Ports/OrderRepository.application.ports";
+import { IOrderRepository } from "../../../Domain/Usecases/OrderUsecase.domain.usecases.order";
 
 container.register<IOrderRepository>(
   "IOrderRepository",
@@ -24,32 +23,25 @@ export class OrderController {
 
   async createOrder ({ body, set }: Context) {
     try {
-      const PAYLOAD = body as Order
-      const NEW_ORDER = new Order(
-        PAYLOAD.canal,
-        PAYLOAD.status,
-        PAYLOAD.nome,
-        PAYLOAD.segmento,
-        PAYLOAD.telefone,
-        PAYLOAD.mensagem,
-        PAYLOAD.produtos,
-        PAYLOAD.pagamento,
-        PAYLOAD.endereco,
-        PAYLOAD.analytics
+      const DTO = body as Order
+      const PAYLOAD = new Order(
+        DTO.canal,
+        DTO.status,
+        DTO.nome,
+        DTO.segmento,
+        DTO.telefone,
+        DTO.mensagem,
+        DTO.produtos,
+        DTO.pagamento,
+        DTO.endereco,
+        DTO.analytics
       )
 
-      const ResponseService = await this._orderService.create(NEW_ORDER)
+      const ResponseService = await this._orderService.create(PAYLOAD)
       if (/^(erro-create-order)$/i.test(String(ResponseService.codigo))) {
         set.status = 400
         return ResponseService
       }
-
-      await RedisClient.publish(
-        Order_channel,
-        JSON.stringify({
-          data: NEW_ORDER
-        })
-      );
 
       return ResponseService
     } catch (error) {

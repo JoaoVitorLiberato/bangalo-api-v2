@@ -1,6 +1,5 @@
 import { inject, injectable } from "tsyringe";
 import { Order } from "../Entities/Order.domain.entities";
-// import { IOrderRepository } from "../../Application/Ports/OrderRepository.application.ports";
 
 export interface IOrderRepository {
   save(order: Order): Promise<Order|string>;
@@ -9,11 +8,12 @@ export interface IOrderRepository {
 @injectable()
 export class OrderUseCase {
   constructor (
-    @inject("IOrderRepository") private repo: IOrderRepository
+    @inject("IOrderRepository") private repository: IOrderRepository
   ) {}
 
   async execute (order: Order) {
-    if (!order.validate()) throw new Error("Pedido invalido");
-    return await this.repo.save(order);
+    if (!order.validate()) throw new Error("Os dados do seu pedido estão invalidos, verifique-os.");
+    return await this.repository.save(order);
   }
 }
+

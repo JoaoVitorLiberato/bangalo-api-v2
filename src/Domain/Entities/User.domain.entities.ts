@@ -5,12 +5,16 @@ export class User {
     public details: {
       name: string,
       age: number,
-      phone: string
+      phone: string,
       thumbnail: {
-        location: string,
+        location: "users",
         url_image: string
       },
     },
     public id?: string,
   ) {}
+
+  valid (): boolean {
+    return true
+  }
 }

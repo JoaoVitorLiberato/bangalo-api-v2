@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { App } from "./Interfaces/Http/App.interfaces.http";
 
 App.get("/", () => "Hello Elysia")
