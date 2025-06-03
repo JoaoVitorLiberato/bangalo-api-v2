@@ -40,7 +40,7 @@ export class UserController {
       return responseService;
     } catch (error) {
       set.status = 500;
-      console.error("ERROR - OrderController", error);
+      console.error("ERROR - OrderController createUser", error);
       return "Erro Server";
     }
   }
@@ -53,10 +53,51 @@ export class UserController {
         return responseService;
       }
 
+      return responseService as User[];
+    } catch (error) {
+      set.status = 500;
+      console.error("ERROR - OrderController findAllUsers", error);
+      return "Erro Server";
+    }
+  }
+
+  async findUserById ({ params, set }: Context) {
+    try {
+      const responseService = await this._userService.findById(params.id as string);
+      if (/^(error-find-user-by-id)$/i.test(String(responseService.codigo))) {
+        set.status = 400;
+        return responseService;
+      }
+
+      return (responseService as User);
+    } catch (error) {
+      set.status = 500;
+      console.error("ERROR - OrderController findUserById", error);
+      return "Erro Server";
+    }
+  }
+
+  async updateUser ({ body, params, set }: Context) {
+    try {
+      const ID = params.id as string
+      const dto = body as User
+      const PAYLOAD = new User(
+        dto.email,
+        dto.password,
+        dto.details,
+      );
+
+      const responseService = await this._userService.update(ID, PAYLOAD);
+
+      if (/^(error-update-user)$/i.test(String(responseService.codigo))) {
+        set.status = 400;
+        return responseService;
+      }
+
       return responseService;
     } catch (error) {
       set.status = 500;
-      console.error("ERROR - OrderController", error);
+      console.error("ERROR - OrderController createUser", error);
       return "Erro Server";
     }
   }
