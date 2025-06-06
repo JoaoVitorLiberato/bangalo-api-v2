@@ -5,7 +5,7 @@ export const RedisAdmin = new Redis({ host: "redis", port: 6379 });
 export const RedisClient = new Redis({ host: "redis", port: 6379 });
 export const Order_channel = "order_created";
 
-export function setupOrderNotifications() {
+export function SetupOrderNotifications() {
   RedisAdmin.subscribe(Order_channel);
 
   RedisAdmin.on('message', (channel, message) => {

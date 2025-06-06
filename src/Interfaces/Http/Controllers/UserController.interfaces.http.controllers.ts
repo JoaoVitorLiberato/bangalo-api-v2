@@ -47,7 +47,8 @@ export class UserController {
 
   async findUserById ({ params, set }: Context) {
     try {
-      const responseService = await this._userService.findById(params.id as string);
+      const ID = params.id as string
+      const responseService = await this._userService.findById(ID);
       
       if (/^(error-find-user-by-id)$/i.test(String(responseService.codigo))) {
         set.status = 400;
@@ -83,6 +84,56 @@ export class UserController {
     } catch (error) {
       set.status = 500;
       console.error("ERROR - OrderController createUser", error);
+      return "Erro Server";
+    }
+  }
+
+  async updatePassword ({ body, params, set }: Context) {
+    try {
+      const ID = params.id as string
+      const PAYLOAD = body as { password: string, newPassword: string }
+
+      const responseService = await this._userService.updatePassword(ID, PAYLOAD);
+
+      if (/^(password-invalid)$/i.test(String(responseService.codigo))) {
+        set.status = 400;
+        return responseService;
+      }
+
+      if (/^(error-update-password-user)$/i.test(String(responseService.codigo))) {
+        set.status = 400;
+        return responseService;
+      }
+
+      return responseService;
+    } catch (error) {
+      set.status = 500;
+      console.error("ERROR - OrderController updatePassword", error);
+      return "Erro Server";
+    }
+  }
+  
+  async deleteUser ({ params, set }: Context) {
+    try {
+      const ID = params.id as string
+      console.log("ID", ID)
+
+      const responseService = await this._userService.delete(ID);
+
+      if (/^(error-delete-user)$/i.test(String(responseService.codigo))) {
+        set.status = 400;
+        return responseService;
+      }
+
+      if (/^(user-not-found)$/i.test(String(responseService.codigo))) {
+        set.status = 404;
+        return responseService;
+      }
+
+      return responseService;
+    } catch (error) {
+      set.status = 500;
+      console.error("ERROR - OrderController deleteUser", error);
       return "Erro Server";
     }
   }

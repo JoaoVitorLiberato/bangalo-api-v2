@@ -58,11 +58,44 @@ export class UserRepository implements IUserRepository {
 
   async update (id: string, user:User): Promise<string> {
     return new Promise((resolve) => {
-      UserModel.update({ ...user }, { where: { id } })
+      UserModel.update({
+        email: user.email,
+        details: {
+          name: user.details.name,
+          age: user.details.age,
+          phone: user.details.phone,
+          thumbnail: {
+            location: user.details.thumbnail?.location || "",
+            url_image: user.details.thumbnail?.url_image || ""
+          }
+        }
+      }, { where: { id } })
         .then(() => resolve("Usuário atualizado com sucesso."))
         .catch((error) => {
           console.log("[ERROR UserRepository]", error)
           resolve(`error-update-user-models`)
+        })
+    })
+  }
+
+  async updatePassword (id: string, data: { password: string, newPassword: string }): Promise<string> {
+    return new Promise((resolve) => {
+      UserModel.update({ password: String(data.newPassword) }, { where: { id } })
+        .then(() => resolve("Senha atualizada com sucesso."))
+        .catch((error) => {
+          console.log("[ERROR UserRepository]", error)
+          resolve(`error-update-password-user-models`)  
+        })
+    })
+  }
+
+  async delete (id: string): Promise<string> {
+    return new Promise((resolve) => {
+      UserModel.destroy({ where: { id } })
+        .then(() => resolve("Usuário deletado com sucesso."))
+        .catch((error) => {
+          console.log("[ERROR UserRepository]", error)
+          resolve(`error-delete-user-models`)
         })
     })
   }

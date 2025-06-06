@@ -86,4 +86,60 @@ export class UserService {
       })
     }
   }
+
+  async updatePassword (id: string, data: { password: string, newPassword: string }): Promise<any> {
+    try {
+      const responseCacheRepository = await this.user.findCacheById(id) as User
+      const VALIDATE_PASSWORD = await argon2.verify(String(responseCacheRepository.password), String(data.password))
+
+      if (!VALIDATE_PASSWORD) {
+        console.log("password-invalid")
+        return this.notify.send({
+          codigo: "password-invalid",
+          mensagem: "Senha inválida."
+        })
+      }
+
+      const responseRepository = await this.user.updatePassword(id, data)
+      if (/^(error-update-password-user-models)$/i.test(String(responseRepository))) throw new Error("Erro ao atualizar a senha.")
+
+      return await this.notify.send({
+        mensagem: "Senha atualizada com sucesso."
+      })
+    } catch (error) {
+      console.error("[ERROR OrderService - updatePassword]", error)
+      return this.notify.send({
+        codigo: "error-update-password-user",
+        mensagem: "Houve um erro ao atualizar a senha."
+      })
+    }
+  }
+
+  async delete (id: string): Promise<any> {
+    try {
+      const responseCacheRepository = await this.user.findCacheById(id)
+      if (/^(error-find-user-by-id-model)$/i.test(String(responseCacheRepository))) throw new Error("Erro ao procurar usuários")
+
+      if (!responseCacheRepository) {
+        return this.notify.send({
+          codigo: "user-not-found",
+          mensagem: "Nenhum usuário encontrado."
+        })
+      }
+
+      const responseRepository = await this.user.delete(id)
+      if (/^(error-delete-user-models)$/i.test(String(responseRepository))) throw new Error("Erro ao deletar o usuário.")
+
+      console.log("responseRepository", responseRepository)
+      return await this.notify.send({
+        mensagem: "Usuário deletado com sucesso."
+      })
+    } catch (error) {
+      console.error("[ERROR OrderService - delete]", error)
+      return this.notify.send({
+        codigo: "error-delete-user",
+        mensagem: "Houve um erro ao deletar um usuário."
+      })
+    }
+  }
 }

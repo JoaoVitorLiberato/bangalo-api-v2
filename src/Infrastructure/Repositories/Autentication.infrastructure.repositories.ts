@@ -10,7 +10,7 @@ export class AutenticationRepository implements IAutenticationRepository {
       UserModel.findOne({ where: { email } })
         .then((responseService) => {
           if (!responseService) resolve("user-not-found");
-          
+
           resolve(responseService as unknown as User);
         }).catch((error) => {
           console.error("[ERROR AutenticationRepository]", error);

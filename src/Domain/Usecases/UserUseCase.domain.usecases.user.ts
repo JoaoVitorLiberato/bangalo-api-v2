@@ -9,6 +9,8 @@ export interface IUserRepository {
   user: (id: string) => Promise<User|string>,
   cache: (id: string) => Promise<User|string>,
   update: (id:string, user: User) => Promise<string>
+  updatePassword: (id:string, data:{ password: string, newPassword: string }) => Promise<string>,
+  delete: (id: string) => Promise<string>,
 }
 
 @injectable({})
@@ -65,5 +67,18 @@ export class UserUseCase {
     })
 
     return await this.repository.update(id, dto);
+  }
+
+  async updatePassword (id: string, user: { password: string, newPassword: string }) {
+    const PASSWORD_ENCRYPTED = await argon2.hash(user.newPassword);
+
+    return await this.repository.updatePassword(id, {
+      password: user.password,
+      newPassword: PASSWORD_ENCRYPTED
+    });
+  }
+
+  async delete (id: string) {
+    return await this.repository.delete(id);
   }
 }

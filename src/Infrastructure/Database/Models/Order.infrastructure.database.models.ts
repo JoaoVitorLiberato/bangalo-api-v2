@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize"
-import Database from "../connectDb.infrastructure.database";
+import Database from "../ConnectDb.infrastructure.database";
 
 export const OrderModel = Database.define(
  "orders",
