@@ -93,7 +93,6 @@ export class UserService {
       const VALIDATE_PASSWORD = await argon2.verify(String(responseCacheRepository.password), String(data.password))
 
       if (!VALIDATE_PASSWORD) {
-        console.log("password-invalid")
         return this.notify.send({
           codigo: "password-invalid",
           mensagem: "Senha inválida."
@@ -130,7 +129,6 @@ export class UserService {
       const responseRepository = await this.user.delete(id)
       if (/^(error-delete-user-models)$/i.test(String(responseRepository))) throw new Error("Erro ao deletar o usuário.")
 
-      console.log("responseRepository", responseRepository)
       return await this.notify.send({
         mensagem: "Usuário deletado com sucesso."
       })

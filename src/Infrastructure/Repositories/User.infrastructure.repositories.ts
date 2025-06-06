@@ -10,7 +10,7 @@ export class UserRepository implements IUserRepository {
       UserModel.create({ ...user })
         .then((responseModel) => resolve(responseModel as unknown as User))
         .catch((error) => {
-          console.log("[ERROR UserRepository]", error)
+          console.error("[ERROR UserRepository]", error)
           resolve(`error-create-user-models`)
         })
     })
@@ -72,7 +72,7 @@ export class UserRepository implements IUserRepository {
       }, { where: { id } })
         .then(() => resolve("Usuário atualizado com sucesso."))
         .catch((error) => {
-          console.log("[ERROR UserRepository]", error)
+          console.error("[ERROR UserRepository]", error)
           resolve(`error-update-user-models`)
         })
     })
@@ -83,7 +83,7 @@ export class UserRepository implements IUserRepository {
       UserModel.update({ password: String(data.newPassword) }, { where: { id } })
         .then(() => resolve("Senha atualizada com sucesso."))
         .catch((error) => {
-          console.log("[ERROR UserRepository]", error)
+          console.error("[ERROR UserRepository]", error)
           resolve(`error-update-password-user-models`)  
         })
     })
@@ -94,7 +94,7 @@ export class UserRepository implements IUserRepository {
       UserModel.destroy({ where: { id } })
         .then(() => resolve("Usuário deletado com sucesso."))
         .catch((error) => {
-          console.log("[ERROR UserRepository]", error)
+          console.error("[ERROR UserRepository]", error)
           resolve(`error-delete-user-models`)
         })
     })

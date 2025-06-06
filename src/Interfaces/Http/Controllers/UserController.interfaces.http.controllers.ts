@@ -116,7 +116,6 @@ export class UserController {
   async deleteUser ({ params, set }: Context) {
     try {
       const ID = params.id as string
-      console.log("ID", ID)
 
       const responseService = await this._userService.delete(ID);
 

@@ -19,7 +19,7 @@ export const ConnectDatabase = async () => {
   try {
     await Database.authenticate();
   } catch {
-    console.log("Houve um erro ao conectar com o banco de dados, por favor, tente novamente.");
+    console.error("Houve um erro ao conectar com o banco de dados, por favor, tente novamente.");
   }
 }
 
