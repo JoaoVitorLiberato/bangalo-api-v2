@@ -1,4 +1,3 @@
-import { Payment } from "./Payment.domain.entities"
 import { Product } from "./Product.domain.entities"
 
 export class Order {
@@ -10,7 +9,13 @@ export class Order {
     public telefone: string,
     public mensagem: string,
     public produtos: Product[],
-    public pagamento: Payment,
+    public pagamento: {
+      formaPagamento: string,
+      statusPagamento: string,
+      valorFrete: number,
+      valorProdutos: number,
+      valorTotal: number,
+    },
     public endereco: {
       cep: string,
       logradouro: string,

@@ -12,12 +12,7 @@ export class UserController {
 
   async createUser ({ body, set }: Context) {
     try {
-      const dto = body as User
-      const PAYLOAD = new User(
-        dto.email,
-        dto.password,
-        dto.details,
-      );
+      const PAYLOAD = body as User
 
       const responseService = await this._userService.create(PAYLOAD);
 
@@ -75,12 +70,7 @@ export class UserController {
   async updateUser ({ body, params, set }: Context) {
     try {
       const ID = params.id as string
-      const dto = body as User
-      const PAYLOAD = new User(
-        dto.email,
-        dto.password,
-        dto.details,
-      );
+      const PAYLOAD = body as User
 
       const responseService = await this._userService.update(ID, PAYLOAD);
 

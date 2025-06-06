@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import argon2 from "argon2";
 import { User } from "../Entities/User.domain.entities";
+import { UserFactory } from "../Factory/UserFactory.domain.factory";
 
 export interface IUserRepository {
   save: (user: User) => Promise<User|string>,
@@ -17,16 +18,23 @@ export class UserUseCase {
   ) {}
 
   async save (user: User) {
-    if (!user.valid()) throw new Error("Os dados do usuário estão invalidos, verifique-os.");
-
     const PASSWORD_ENCRYPTED = await argon2.hash(user.password);
 
-    const dto = {
-      ...user,
-      password: PASSWORD_ENCRYPTED
-    }
+    const dto = UserFactory.save({
+      email: user.email,
+      password: PASSWORD_ENCRYPTED,
+      datails: {
+        name: user.details.name,
+        age: user.details.age,
+        phone: user.details.phone,
+        thumbnail: {
+          location: "users",
+          url_image: user.details.thumbnail?.url_image || ""
+        },
+      }
+    })
 
-    return await this.repository.save(dto as User);
+    return await this.repository.save(dto);
   }
 
   async findAll () {
@@ -42,7 +50,20 @@ export class UserUseCase {
   }
 
   async update (id:string, user:User) {
-    if (!user.valid()) throw new Error("Os dados do usuário estão invalidos, verifique-os.");
-    return await this.repository.update(id, user);
+    const dto = UserFactory.save({
+      email: user.email,
+      password: user.password,
+      datails: {
+        name: user.details.name,
+        age: user.details.age,
+        phone: user.details.phone,
+        thumbnail: {
+          location: "users",
+          url_image: user.details.thumbnail?.url_image || ""
+        },
+      }
+    })
+
+    return await this.repository.update(id, dto);
   }
 }
