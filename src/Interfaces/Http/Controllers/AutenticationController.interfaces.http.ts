@@ -10,7 +10,7 @@ import "../../../Shared/Containers/AutenticationContainer.shared.containers"
 export class AutenticationController {
   private _autenticationService = container.resolve(AutenticationService);
 
-  async login ({ body, set, store }: Context) {
+  async login ({ body, set }: Context) {
     try {
       const dto = body as Autentication;
       const ResponseService = await this._autenticationService.login(dto.email, dto.password);

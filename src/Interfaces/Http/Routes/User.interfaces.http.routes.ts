@@ -175,6 +175,10 @@ const router = new Elysia()
           codigo: t.String(),
           mensagem: t.String()
         }),
+        401: t.Object({
+          codigo: t.String(),
+          mensagem: t.String()
+        }),
         404: t.Object({
           codigo: t.String(),
           mensagem: t.String()

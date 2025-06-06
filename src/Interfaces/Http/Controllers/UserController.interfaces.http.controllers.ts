@@ -96,7 +96,12 @@ export class UserController {
       const responseService = await this._userService.updatePassword(ID, PAYLOAD);
 
       if (/^(password-invalid)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
+        set.status = 401;
+        return responseService;
+      }
+
+      if (/^(user-not-found)$/i.test(String(responseService.codigo))) {
+        set.status = 404;
         return responseService;
       }
 

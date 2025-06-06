@@ -26,6 +26,10 @@ route
         400: t.Object({
           codigo: t.String(),
           mensagem: t.String()
+        }),
+        401: t.Object({
+          codigo: t.String(),
+          mensagem: t.String()
         })
       }
     }
