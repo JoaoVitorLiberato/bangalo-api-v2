@@ -1,13 +1,10 @@
 import { Context } from "elysia";
 import { container } from "tsyringe";
 import CryptoJS from "crypto-js";
-import { NotificationServiceAdapter } from "../Adapters/NotificationAdapter.infrastructure.adapters";
-import { UserRepository } from "../Repositories/User.infrastructure.repositories";
 import { UserService } from "../../Application/Services/UserService.application.service";
 
-container.registerSingleton<UserRepository>(UserRepository)
-container.registerSingleton<NotificationServiceAdapter>(NotificationServiceAdapter)
-container.registerSingleton<UserService>(UserService)
+// Dependencies
+import "../../Shared/Containers/Middlewares/AutenticationHashRoutesContainer.shared.container.middleware"
 
 export class AutenticationHashMiddleware {
   private _serviceUser = container.resolve(UserService);

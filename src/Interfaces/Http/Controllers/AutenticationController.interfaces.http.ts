@@ -5,7 +5,7 @@ import { AutenticationService } from "../../../Application/Services/Autenticatio
 import { Autentication } from "../../../Domain/Entities/Autentication.domain.entities";
 
 // Dependencies
-import "../../../Shared/Containers/AutenticationContainer.shared.containers"
+import "../../../Shared/Containers/Controllers/AutenticationContainer.shared.containers.controller"
 
 export class AutenticationController {
   private _autenticationService = container.resolve(AutenticationService);

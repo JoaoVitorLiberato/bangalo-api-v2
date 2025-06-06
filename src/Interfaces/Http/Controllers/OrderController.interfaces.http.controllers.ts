@@ -6,7 +6,7 @@ import { OrderService } from "../../../Application/Services/OrderService.applica
 import { Order } from "../../../Domain/Entities/Order.domain.entities";
 
 // Dependencies
-import "../../../Shared/Containers/OrderContainer.shared.containers"
+import "../../../Shared/Containers/Controllers/OrderContainer.shared.containers.controller"
 
 export class OrderController {
   private _orderService = container.resolve(OrderService)

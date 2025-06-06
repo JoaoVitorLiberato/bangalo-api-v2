@@ -1,5 +1,3 @@
-import { injectable } from "tsyringe";
-
 import { User } from "../../Domain/Entities/User.domain.entities";
 import { UserModel } from "../Database/Models/User.infrastructure.database.models";
 import { IUserRepository } from "../../Domain/Usecases/UserUseCase.domain.usecases.user";

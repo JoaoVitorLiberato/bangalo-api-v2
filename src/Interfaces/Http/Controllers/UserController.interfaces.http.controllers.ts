@@ -5,7 +5,7 @@ import { User } from "../../../Domain/Entities/User.domain.entities";
 import { UserService } from "../../../Application/Services/UserService.application.service";
 
 // Dependencies
-import "../../../Shared/Containers/UserContainer.shared.containers"
+import "../../../Shared/Containers/Controllers/UserContainer.shared.containers.controller"
 
 export class UserController {
   private _userService = container.resolve(UserService)
