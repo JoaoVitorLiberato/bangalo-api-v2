@@ -48,6 +48,13 @@ export class UserService {
       const responseRepository = await this.user.findById(id)
       if (/^(error-find-user-by-id-model)$/i.test(String(responseRepository))) throw Error("Erro ao procurar usuários")
 
+      if (!responseRepository) {
+        return this.notify.send({
+          codigo: "user-not-found",
+          mensagem: "Nenhum usuário encontrado."
+        })
+      }
+
       return responseRepository as User
     } catch (error) {
       console.error("[ERROR OrderService - findById]", error)

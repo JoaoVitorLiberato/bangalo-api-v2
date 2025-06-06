@@ -30,15 +30,74 @@ export class Order {
     public id?: string,
   ) {}
 
-  validate (): boolean {
-    return  [
-      this.canal !== "",
-      this.nome !== "",
-      this.segmento !== "",
-      this.telefone !== "",
-      this.produtos.length > 0,
-      this.pagamento.valorTotal !== 0,
-    ].every(o => !!o)
+  valid (): boolean {
+    // Validação básica dos campos obrigatórios
+    if (!this.canal || typeof this.canal !== 'string' || this.canal.trim() === '') {
+      return false;
+    }
 
+    if (!this.nome || typeof this.nome !== 'string' || this.nome.trim() === '') {
+      return false;
+    }
+
+    if (!this.segmento || typeof this.segmento !== 'string' || this.segmento.trim() === '') {
+      return false;
+    }
+
+    if (!this.status || typeof this.status !== 'string' || this.status.trim() === '') {
+      return false;
+    }
+
+    const phoneRegex = /^[0-9]{10,11}$/;
+    if (!this.telefone || !phoneRegex.test(this.telefone.replace(/\D/g, ''))) {
+      return false;
+    }
+
+    // Validação dos produtos
+    if (!Array.isArray(this.produtos) || this.produtos.length === 0) {
+      return false;
+    }
+
+    // Validação do pagamento
+    if (!this.pagamento || typeof this.pagamento.valorTotal !== 'number' || this.pagamento.valorTotal <= 0) {
+      return false;
+    }
+
+    // Validação do endereço
+    if (!this.endereco) {
+      return false;
+    }
+
+    const cepRegex = /^[0-9]{8}$/;
+    if (!this.endereco.cep || !cepRegex.test(this.endereco.cep.replace(/\D/g, ''))) {
+      return false;
+    }
+
+    if (!this.endereco.logradouro || this.endereco.logradouro.trim() === '') {
+      return false;
+    }
+
+    if (!this.endereco.bairro || this.endereco.bairro.trim() === '') {
+      return false;
+    }
+
+    if (!this.endereco.cidade || this.endereco.cidade.trim() === '') {
+      return false;
+    }
+
+    if (!this.endereco.uf || this.endereco.uf.trim() === '' || this.endereco.uf.length !== 2) {
+      return false;
+    }
+
+    if (!this.endereco.numero || this.endereco.numero.trim() === '') {
+      return false;
+    }
+
+    // Validação do analytics
+    if (!this.analytics) {
+      return false;
+    }
+
+    return true;
   }
 }

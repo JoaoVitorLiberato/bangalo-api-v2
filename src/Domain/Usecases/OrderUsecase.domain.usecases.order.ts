@@ -12,7 +12,7 @@ export class OrderUseCase {
   ) {}
 
   async execute (order: Order) {
-    if (!order.validate()) throw new Error("Os dados do seu pedido estão invalidos, verifique-os.");
+    if (!order.valid()) throw new Error("Os dados do seu pedido estão invalidos, verifique-os.");
     return await this.repository.save(order);
   }
 }

@@ -1,22 +1,11 @@
 import { container } from "tsyringe";
 import { Context } from "elysia";
 
-import { NotificationServiceAdapter } from "../../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters";
-import { UserRepository } from "../../../Infrastructure/Repositories/User.infrastructure.repositories";
-import { IUserRepository } from "../../../Domain/Usecases/UserUseCase.domain.usecases.user";
 import { User } from "../../../Domain/Entities/User.domain.entities";
-import { UserUseCase } from "../../../Domain/Usecases/UserUseCase.domain.usecases.user";
 import { UserService } from "../../../Application/Services/UserService.application.service";
 
-container.register<IUserRepository>(
-  "IUserRepository",
-  { useClass: UserRepository }
-)
-
-container.registerSingleton<NotificationServiceAdapter>(NotificationServiceAdapter);
-container.registerSingleton<UserUseCase>(UserUseCase);
-container.registerSingleton<UserRepository>(UserRepository);
-container.registerSingleton<UserService>(UserService);
+// Dependencies
+import "../../../Shared/Containers/UserContainer.shared.containers"
 
 export class UserController {
   private _userService = container.resolve(UserService)
@@ -48,7 +37,7 @@ export class UserController {
   async findAllUsers ({ set }: Context) {
     try {
       const responseService = await this._userService.findall();
-      if (/^(error-create-user)$/i.test(String(responseService.codigo))) {
+      if (/^(error-find-all-users)$/i.test(String(responseService.codigo))) {
         set.status = 400;
         return responseService;
       }
@@ -64,8 +53,14 @@ export class UserController {
   async findUserById ({ params, set }: Context) {
     try {
       const responseService = await this._userService.findById(params.id as string);
+      
       if (/^(error-find-user-by-id)$/i.test(String(responseService.codigo))) {
         set.status = 400;
+        return responseService;
+      }
+
+      if (/^(user-not-found)$/i.test(String(responseService.codigo))) {
+        set.status = 404;
         return responseService;
       }
 

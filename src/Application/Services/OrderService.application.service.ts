@@ -22,11 +22,11 @@ export class OrderService {
         mensagem: "Produco criado com sucesso"
       });
     } catch (error) {
-      console.error("[ERROR OrderService]", error)
+      console.error("[ERROR OrderService]", error);
       return await this.notify.send({
         codigo: "erro-create-order",
         mensagem: "Houve um erro ao tentar criar um pedido",
-      })
+      });
     }
   }
 }
