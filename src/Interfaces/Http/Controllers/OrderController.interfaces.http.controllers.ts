@@ -9,7 +9,7 @@ import { Order } from "../../../Domain/Entities/Order.domain.entities";
 import "../../../Shared/Containers/Controllers/OrderContainer.shared.containers.controller"
 
 export class OrderController {
-  private _orderService = container.resolve(OrderService)
+  private _service = container.resolve(OrderService)
 
   async createOrder ({ body, set }: Context) {
     try {
@@ -27,7 +27,7 @@ export class OrderController {
         dto.analytics
       );
 
-      const ResponseService = await this._orderService.create(PAYLOAD);
+      const ResponseService = await this._service.create(PAYLOAD);
       if (/^(erro-create-order)$/i.test(String(ResponseService.codigo))) {
         set.status = 400;
         return ResponseService;

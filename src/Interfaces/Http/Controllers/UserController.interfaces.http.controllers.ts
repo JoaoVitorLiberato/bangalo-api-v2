@@ -8,18 +8,15 @@ import { UserService } from "../../../Application/Services/UserService.applicati
 import "../../../Shared/Containers/Controllers/UserContainer.shared.containers.controller"
 
 export class UserController {
-  private _userService = container.resolve(UserService)
+  private _service = container.resolve(UserService)
 
   async createUser ({ body, set }: Context) {
     try {
       const PAYLOAD = body as User
 
-      const responseService = await this._userService.create(PAYLOAD);
+      const responseService = await this._service.create(PAYLOAD);
 
-      if (/^(error-create-user)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
-        return responseService;
-      }
+      if (responseService && responseService.codigo && /^(error-create-user)$/i.test(String(responseService.codigo))) set.status = 400;
 
       return responseService;
     } catch (error) {
@@ -31,13 +28,10 @@ export class UserController {
 
   async findAllUsers ({ set }: Context) {
     try {
-      const responseService = await this._userService.findall();
-      if (/^(error-find-all-users)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
-        return responseService;
-      }
+      const responseService = await this._service.findall();
+      if (responseService && responseService.codigo && /^(error-find-all-users)$/i.test(String(responseService.codigo))) set.status = 400;
 
-      return responseService as User[];
+      return responseService
     } catch (error) {
       set.status = 500;
       console.error("ERROR - OrderController findAllUsers", error);
@@ -48,19 +42,12 @@ export class UserController {
   async findUserById ({ params, set }: Context) {
     try {
       const ID = params.id as string
-      const responseService = await this._userService.findById(ID);
+      const responseService = await this._service.findById(ID);
       
-      if (/^(error-find-user-by-id)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
-        return responseService;
-      }
+      if (responseService && responseService.codigo && /^(error-find-user-by-id)$/i.test(String(responseService.codigo))) set.status = 400;
+      if (responseService && responseService.codigo && /^(user-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
 
-      if (/^(user-not-found)$/i.test(String(responseService.codigo))) {
-        set.status = 404;
-        return responseService;
-      }
-
-      return (responseService as User);
+      return responseService;
     } catch (error) {
       set.status = 500;
       console.error("ERROR - OrderController findUserById", error);
@@ -73,12 +60,9 @@ export class UserController {
       const ID = params.id as string
       const PAYLOAD = body as User
 
-      const responseService = await this._userService.update(ID, PAYLOAD);
+      const responseService = await this._service.update(ID, PAYLOAD);
 
-      if (/^(error-update-user)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
-        return responseService;
-      }
+      if (responseService && responseService.codigo && /^(error-update-user)$/i.test(String(responseService.codigo))) set.status = 400;
 
       return responseService;
     } catch (error) {
@@ -93,22 +77,11 @@ export class UserController {
       const ID = params.id as string
       const PAYLOAD = body as { password: string, newPassword: string }
 
-      const responseService = await this._userService.updatePassword(ID, PAYLOAD);
+      const responseService = await this._service.updatePassword(ID, PAYLOAD);
 
-      if (/^(password-invalid)$/i.test(String(responseService.codigo))) {
-        set.status = 401;
-        return responseService;
-      }
-
-      if (/^(user-not-found)$/i.test(String(responseService.codigo))) {
-        set.status = 404;
-        return responseService;
-      }
-
-      if (/^(error-update-password-user)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
-        return responseService;
-      }
+      if (responseService && responseService.codigo && /^(password-invalid)$/i.test(String(responseService.codigo))) set.status = 401;
+      if (responseService && responseService.codigo && /^(user-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
+      if (responseService && responseService.codigo && /^(error-update-password-user)$/i.test(String(responseService.codigo))) set.status = 400;
 
       return responseService;
     } catch (error) {
@@ -122,17 +95,10 @@ export class UserController {
     try {
       const ID = params.id as string
 
-      const responseService = await this._userService.delete(ID);
+      const responseService = await this._service.delete(ID);
 
-      if (/^(error-delete-user)$/i.test(String(responseService.codigo))) {
-        set.status = 400;
-        return responseService;
-      }
-
-      if (/^(user-not-found)$/i.test(String(responseService.codigo))) {
-        set.status = 404;
-        return responseService;
-      }
+      if (responseService && responseService.codigo && /^(error-delete-user)$/i.test(String(responseService.codigo))) set.status = 400;
+      if (responseService && responseService.codigo && /^(user-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
 
       return responseService;
     } catch (error) {

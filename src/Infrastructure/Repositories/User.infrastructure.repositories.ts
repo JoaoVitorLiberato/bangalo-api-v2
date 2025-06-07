@@ -1,7 +1,9 @@
+import { injectable } from "tsyringe";
 import { User } from "../../Domain/Entities/User.domain.entities";
 import { UserModel } from "../Database/Models/User.infrastructure.database.models";
 import { IUserRepository } from "../../Domain/Usecases/UserUseCase.domain.usecases.user";
 
+@injectable()
 export class UserRepository implements IUserRepository {
   async save (user: User): Promise<User|string> {
     return new Promise((resolve) => {
@@ -24,7 +26,10 @@ export class UserRepository implements IUserRepository {
         }
       })
         .then((responseModel) => resolve(responseModel as unknown as User[]))
-        .catch(() => resolve("error-find-users-model"))
+        .catch((error) => {
+          console.error("[ERROR UserRepository]", error)
+          resolve("error-find-users-model")
+        })
     })
   }
 
@@ -37,7 +42,10 @@ export class UserRepository implements IUserRepository {
         }
       })
         .then((responseModel) => resolve(responseModel as unknown as User))
-        .catch(() => resolve("error-find-user-by-id-model"))
+        .catch((error) => {
+          console.error("[ERROR UserRepository]", error)
+          resolve("error-find-user-by-id-model")
+        })
     })
   }
 
@@ -50,7 +58,10 @@ export class UserRepository implements IUserRepository {
         }
       })
         .then((responseModel) => resolve(responseModel as unknown as User))
-        .catch(() => resolve("error-find-user-by-id-model"))
+        .catch((error) => {
+          console.error("[ERROR UserRepository]", error)
+          resolve("error-find-user-by-id-model")
+        })
     })
   }
 

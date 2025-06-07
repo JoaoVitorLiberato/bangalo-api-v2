@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { IAutenticationRepository } from "../../Domain/Usecases/AutenticationUserCase.domain.usecases";
+import { IAutenticationRepository } from "../../Domain/Usecases/AutenticationUseCase.domain.usecases";
 import { UserModel } from "../Database/Models/User.infrastructure.database.models";
 import { User } from "../../Domain/Entities/User.domain.entities";
 

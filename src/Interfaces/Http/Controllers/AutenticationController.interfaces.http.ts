@@ -8,22 +8,16 @@ import { Autentication } from "../../../Domain/Entities/Autentication.domain.ent
 import "../../../Shared/Containers/Controllers/AutenticationContainer.shared.containers.controller"
 
 export class AutenticationController {
-  private _autenticationService = container.resolve(AutenticationService);
+  private _service = container.resolve(AutenticationService);
 
   async login ({ body, set }: Context) {
     try {
       const dto = body as Autentication;
-      const ResponseService = await this._autenticationService.login(dto.email, dto.password);
+      const ResponseService = await this._service.login(dto.email, dto.password);
 
-      if (/^(error-autentication-user)$/i.test(String(ResponseService.codigo))) {
-        set.status = 401;
-        return ResponseService;
-      }
+      if (/^(error-autentication-user)$/i.test(String(ResponseService.codigo))) set.status = 401;
 
-      if (/^(error-login-user)$/i.test(String(ResponseService.codigo))) {
-        set.status = 400;
-        return ResponseService;
-      }
+      if (/^(error-login-user)$/i.test(String(ResponseService.codigo))) set.status = 400;
 
       return ResponseService;
     } catch (error) {

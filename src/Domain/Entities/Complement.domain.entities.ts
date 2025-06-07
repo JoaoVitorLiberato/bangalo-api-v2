@@ -1,7 +1,7 @@
 export class Complement {
   constructor (
-    public description: string,
     public name: string,
+    public description: string,
     public price: number,
     public priceTotal?: number,
     public qtd?:number,

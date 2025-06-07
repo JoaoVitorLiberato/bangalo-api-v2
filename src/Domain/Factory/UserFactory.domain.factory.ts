@@ -1,10 +1,10 @@
 import { User } from "../Entities/User.domain.entities";
-import { Email } from "../ValueObjects/User/Email.domain.valuesobjects";
-import { Password } from "../ValueObjects/User/Password.domain.valuesobjects";
-import { Name } from "../ValueObjects/User/Name.domain.valuesobjects";
-import { Phone } from "../ValueObjects/User/Phone.domain.valuesobjects";
-import { Thumbnail } from "../ValueObjects/User/Tumbnail.domain.valuesobjects";
-import { Age } from "../ValueObjects/User/Age.domain.valuesobjects";
+import { Email } from "../ValueObjects/Email.domain.valuesobjects";
+import { Password } from "../ValueObjects/Password.domain.valuesobjects";
+import { Name } from "../ValueObjects/Name.domain.valuesobjects";
+import { Phone } from "../ValueObjects/Phone.domain.valuesobjects";
+import { Thumbnail } from "../ValueObjects/Tumbnail.domain.valuesobjects";
+import { Age } from "../ValueObjects/Age.domain.valuesobjects";
 
 interface UserFactoryProps {
   email: string;
