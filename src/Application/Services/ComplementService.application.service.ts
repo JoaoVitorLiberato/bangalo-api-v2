@@ -39,7 +39,16 @@ export class ComplementService {
 
   async viewById(id: string): Promise<any> {
     try {
-      return await this.complement.viewById(id);
+      const responseRepository = await this.complement.viewById(id);
+
+      if (!responseRepository) {
+        return await this.notify.send({
+          codigo: "complement-not-found",
+          mensagem: "Complemento não encontrado",
+        });
+      }
+
+      return responseRepository;
     } catch (error) {
       console.error("[ERROR ComplementService]", error);
       return await this.notify.send({
@@ -51,6 +60,11 @@ export class ComplementService {
 
   async update(id: string, data: Complement): Promise<any> {
     try {
+      const responseService = await this.viewById(id);
+      if (responseService && responseService.codigo && /^(complement-not-found)$/i.test(String(responseService.codigo))) {
+        return await this.notify.send(responseService);
+      }
+
       await this.complement.update(id, data);
 
       return await this.notify.send({
@@ -67,6 +81,11 @@ export class ComplementService {
 
   async delete(id: string): Promise<any> {
     try {
+      const responseService = await this.viewById(id);
+      if (responseService && responseService.codigo && /^(complement-not-found)$/i.test(String(responseService.codigo))) {
+        return await this.notify.send(responseService);
+      }
+
       await this.complement.delete(id);
 
       return await this.notify.send({

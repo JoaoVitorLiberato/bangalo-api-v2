@@ -11,6 +11,7 @@ import { RouteOrder } from "./Routes/Order.interfaces.http.routes";
 import { RouteUser } from "./Routes/User.interfaces.http.routes";
 import { RouteAutentication } from "./Routes/Autentication.interfaces.http.routes";
 import { RouteComplement } from "./Routes/Complement.interfaces.http.routes";
+import { RouteCategory } from "./Routes/Category.interfaces.http.routes";
 
 dotenv.config()
 export const App = new Elysia()
@@ -32,7 +33,8 @@ App.use(
         { name: "Authentication", description: "Rotas de autenticação" },
         { name: "User", description: "Rotas de usuários" },
         { name: "Order", description: "Rotas de pedidos" },
-        { name: "Complement", description: "Rotas de complementos" }
+        { name: "Complement", description: "Rotas de complementos" },
+        { name: "Category", description: "Rotas de categorias" }
       ],
       components: {
         securitySchemes: {
@@ -58,5 +60,6 @@ App.group("", app => app
   .use(RouteUser)
   .use(RouteOrder)
   .use(RouteComplement)
+  .use(RouteCategory)
   .use(RouteAutentication)
 );

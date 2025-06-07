@@ -41,7 +41,7 @@ export class ComplementController {
     try {
       const responseService = await this._service.viewById(params.id as string);
 
-      if (!responseService) set.status = 404;
+      if (responseService && responseService.codigo && /^(complement-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
       if (responseService && responseService.codigo && /^(error-view-complement)$/i.test(String(responseService.codigo))) set.status = 400;
 
       return responseService;
@@ -57,6 +57,7 @@ export class ComplementController {
       const responseService = await this._service.update(params.id as string, body as Complement);
 
       if (responseService && responseService.codigo && /^(error-update-complement)$/i.test(String(responseService.codigo))) set.status = 400;
+      if (responseService && responseService.codigo && /^(complement-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
 
       return responseService;
     } catch (error) {
@@ -71,6 +72,7 @@ export class ComplementController {
       const responseService = await this._service.delete(params.id as string);
 
       if (responseService && responseService.codigo && /^(error-delete-complement)$/i.test(String(responseService.codigo))) set.status = 400;
+      if (responseService && responseService.codigo && /^(complement-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
 
       return responseService;
     } catch (error) {
