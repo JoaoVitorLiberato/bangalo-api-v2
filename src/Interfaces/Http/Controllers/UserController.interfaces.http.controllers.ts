@@ -63,6 +63,7 @@ export class UserController {
       const responseService = await this._service.update(ID, PAYLOAD);
 
       if (responseService && responseService.codigo && /^(error-update-user)$/i.test(String(responseService.codigo))) set.status = 400;
+      if (responseService && responseService.codigo && /^(user-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
 
       return responseService;
     } catch (error) {
@@ -79,9 +80,9 @@ export class UserController {
 
       const responseService = await this._service.updatePassword(ID, PAYLOAD);
 
+      if (responseService && responseService.codigo && /^(error-update-password-user)$/i.test(String(responseService.codigo))) set.status = 400;
       if (responseService && responseService.codigo && /^(password-invalid)$/i.test(String(responseService.codigo))) set.status = 401;
       if (responseService && responseService.codigo && /^(user-not-found)$/i.test(String(responseService.codigo))) set.status = 404;
-      if (responseService && responseService.codigo && /^(error-update-password-user)$/i.test(String(responseService.codigo))) set.status = 400;
 
       return responseService;
     } catch (error) {

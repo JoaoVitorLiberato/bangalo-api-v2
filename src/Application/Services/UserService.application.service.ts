@@ -67,8 +67,16 @@ export class UserService {
 
   async update (id: string, user: User): Promise<any> {
     try {
-      const { password } = await this.user.findCacheById(id) as User
-      const VALIDATE_PASSWORD = await argon2.verify(password, user.password)
+      const responseCacheRepository = await this.user.findCacheById(id) as User
+
+      if (!responseCacheRepository) {
+        return await this.notify.send({
+          codigo: "user-not-found",
+          mensagem: "Usuário não encontrado",
+        });
+      }
+
+      const VALIDATE_PASSWORD = await argon2.verify(String(responseCacheRepository.password), String(user.password))
 
       if (!VALIDATE_PASSWORD) throw new Error("Password invalid!")
 
