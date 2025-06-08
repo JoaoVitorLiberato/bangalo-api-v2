@@ -153,8 +153,8 @@ router
     {
       tags: ["Order"],
       detail: {
-        summary: "Visualiza todos os pedidos",
-        description: "Visualiza todos os pedidos",
+        summary: "Visualizar todos os pedidos",
+        description: "Visualiza todos os pedidos já criados",
       },
       response: {
         200: t.Array(t.Object({
@@ -276,7 +276,11 @@ router
         400: t.Object({
           codigo: t.String(),
           mensagem: t.String(),
-        })
+        }),
+        404: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        }),
       }
     }
   )
@@ -288,11 +292,8 @@ router
     {
       tags: ["Order"],
       detail: {
-        summary: "Visualiza pedido pelo ID",
-        description: "Visualiza um pedido pelo ID",
-        params: {
-          id: "ID do pedido"
-        }
+        summary: "Visualizar pedidos do dia",
+        description: "Visualiza todos os pedidos do dia"
       },
       response: {
         200: t.Array(t.Object({
