@@ -8,7 +8,7 @@ const controller = new UserController();
 const router = new Elysia()
   .onBeforeHandle(async (ctx) => await middleware.validate(ctx))
   .get("/users", 
-    async (ctx) =>  await controller.findAllUsers(ctx as Context),
+    async (ctx) =>  await controller.views(ctx as Context),
     {
       tags: ["User"],
       detail: {
@@ -29,7 +29,7 @@ const router = new Elysia()
             phone: t.String(),
             thumbnail: t.Object({
               location: t.String(),
-              url_image: t.String()
+              url: t.String()
             })    
           })
         })),
@@ -41,7 +41,7 @@ const router = new Elysia()
     }
   )
   .get("/user/:id",
-    async (ctx) => controller.findUserById(ctx as Context),
+    async (ctx) => controller.veiwById(ctx as Context),
     {
       params: t.Object({
         id: t.String()
@@ -64,8 +64,8 @@ const router = new Elysia()
             phone: t.String(),
             thumbnail: t.Object({
               location: t.String(),
-              url_image: t.String()
-            })
+              url: t.String()
+            })    
           })
         }),
         400: t.Object({
@@ -81,19 +81,24 @@ const router = new Elysia()
   )
 
   .post("/user/create",
-    async (ctx) => await controller.createUser(ctx as Context),
+    async (ctx) => await controller.create(ctx as Context),
     {
-      body: t.Object({
-        email: t.String(),
-        password: t.String(),
-        details: t.Object({
-          name: t.String(),
-          age: t.Number(),
-          phone: t.String(),
-          thumbnail: t.Object({
-            location: t.String(),
-            url_image: t.String()
+      body: t.Form({
+        user: t.String(t.Object({
+          email: t.String(),
+          password: t.String(),
+          details: t.Object({
+            name: t.String(),
+            age: t.Number(),
+            phone: t.String(),
+            thumbnail: t.Object({
+              location: t.String(),
+              url: t.String()
+            })
           })
+        })),
+        image: t.File({
+          maxSize: 1024 * 1024 * 5,
         })
       }),
       tags: ["User"],
@@ -122,19 +127,24 @@ const router = new Elysia()
   )
 
   .put("/user/update/:id",
-    async (ctx) => await controller.updateUser(ctx as Context),
+    async (ctx) => await controller.update(ctx as Context),
     {
       body: t.Object({
-        email: t.String(),
-        password: t.String(),
-        details: t.Object({
-          name: t.String(),
-          age: t.Number(),
-          phone: t.String(),
-          thumbnail: t.Object({
-            location: t.String(),
-            url_image: t.String()
+        user: t.String(t.Object({
+          email: t.String(),
+          password: t.String(),
+          details: t.Object({
+            name: t.String(),
+            age: t.Number(),
+            phone: t.String(),
+            thumbnail: t.Object({
+              location: t.String(),
+              url: t.String()
+            })
           })
+        })),
+        image: t.File({
+          maxSize: 1024 * 1024 * 5,
         })
       }),
       tags: ["User"],
@@ -198,7 +208,7 @@ const router = new Elysia()
   )
 
   .delete("/user/delete/:id",
-    async (ctx) => await controller.deleteUser(ctx as Context),
+    async (ctx) => await controller.delete(ctx as Context),
     {
       params: t.Object({
         id: t.String()

@@ -3,7 +3,7 @@ import { UserModel } from "../Database/Models/User.infrastructure.database.model
 import { IUserRepository } from "../../Domain/Usecases/UserUseCase.domain.usecases.user";
 
 export class UserRepository implements IUserRepository {
-  async save (user: User): Promise<User|string> {
+  async create (user: User): Promise<User|string> {
     return new Promise((resolve) => {
       UserModel.create({ ...user })
         .then((responseModel) => resolve(responseModel as unknown as User))
@@ -14,7 +14,7 @@ export class UserRepository implements IUserRepository {
     })
   }
 
-  async users (): Promise<User[]|string> {
+  async views (): Promise<User[]|string> {
     return new Promise((resolve) => {
       UserModel.findAll({
         limit: 50,
@@ -31,7 +31,7 @@ export class UserRepository implements IUserRepository {
     })
   }
 
-  async user (id: string): Promise<User|string> {
+  async viewById (id: string): Promise<User|string> {
     return new Promise((resolve) => {
       UserModel.findByPk(id, {
         raw: true,
@@ -73,7 +73,7 @@ export class UserRepository implements IUserRepository {
           phone: user.details.phone,
           thumbnail: {
             location: user.details.thumbnail?.location || "",
-            url_image: user.details.thumbnail?.url || ""
+            url: user.details.thumbnail?.url || ""
           }
         }
       }, { where: { id } })

@@ -4,6 +4,9 @@ import { IUserRepository, UserUseCase } from "../../../Domain/Usecases/UserUseCa
 import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
 import { UserRepository } from "../../../Infrastructure/Repositories/User.infrastructure.repositories";
 
+// dependencia storage
+import "../Adapters/StorageBangalo.shared.containers.adapters"
+
 container.register<IUserRepository>(
   "IUserRepository",
   { useClass: UserRepository }

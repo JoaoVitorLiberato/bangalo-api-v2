@@ -9,6 +9,7 @@ export class User {
     thumbnail?: {
       location: "users";
       url: string;
+      upload: boolean;
     };
   };
 
@@ -22,6 +23,7 @@ export class User {
       thumbnail?: {
         location: "users";
         url: string;
+        upload: boolean;
       };
     },
     id?: string

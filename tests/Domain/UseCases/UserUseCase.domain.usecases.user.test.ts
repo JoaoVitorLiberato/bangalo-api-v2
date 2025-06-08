@@ -8,7 +8,7 @@ describe("UserUseCase", () => {
   test("Testando um novo usuário sendo criado", async () => {
     const repository = new UserRepository()
     const userUseCase = new UserUseCase(repository)
-    const responseRepository = await userUseCase.save({
+    const responseRepository = await userUseCase.create({
       email: "teste@teste.com",
       password: "12345678",
       details: {

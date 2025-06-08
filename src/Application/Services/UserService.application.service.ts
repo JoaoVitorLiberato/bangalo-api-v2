@@ -14,7 +14,7 @@ export class UserService {
 
   async create (user: User): Promise<any> {
     try {
-      await this.user.save(user)
+      await this.user.create(user)
       return await this.notify.send({
         mensagem: "Usuário criado com sucesso."
       })
@@ -27,15 +27,15 @@ export class UserService {
     }
   }
 
-  async findall (): Promise<User[]|any> {
+  async views (): Promise<any> {
     try {
-      const responseRepository = await this.user.findAll()
+      const responseRepository = await this.user.views()
 
       if (/^(error-find-users-model)$/i.test(String(responseRepository))) throw Error("Erro ao procurar usuários")
 
       return responseRepository as User[]
     } catch (error) {
-      console.error("[ERROR OrderService - findall]", error)
+      console.error("[ERROR OrderService - views]", error)
       return this.notify.send({
         codigo: "error-find-all-users",
         mensagem: "Houve ao buscar os usuários."
@@ -43,9 +43,9 @@ export class UserService {
     }
   }
 
-  async findById (id: string): Promise<User|any> {
+  async veiwById (id: string): Promise<any> {
     try {
-      const responseRepository = await this.user.findById(id)
+      const responseRepository = await this.user.viewById(id)
       if (/^(error-find-user-by-id-model)$/i.test(String(responseRepository))) throw Error("Erro ao procurar usuários")
 
       if (!responseRepository) {
@@ -57,7 +57,7 @@ export class UserService {
 
       return responseRepository as User
     } catch (error) {
-      console.error("[ERROR OrderService - findById]", error)
+      console.error("[ERROR OrderService - veiwById]", error)
       return this.notify.send({
         codigo: "error-find-user-by-id",
         mensagem: "Houve ao buscar o usuário."

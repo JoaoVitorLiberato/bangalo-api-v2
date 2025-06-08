@@ -4,9 +4,9 @@ import { User } from "../Entities/User.domain.entities";
 import { UserFactory } from "../Factory/UserFactory.domain.factory";
 
 export interface IUserRepository {
-  save: (user: User) => Promise<User|string>,
-  users: () => Promise<User[]|string>,
-  user: (id: string) => Promise<User|string>,
+  create: (user: User) => Promise<User|string>,
+  views: () => Promise<User[]|string>,
+  viewById: (id: string) => Promise<User|string>,
   cache: (id: string) => Promise<User|string>,
   update: (id:string, user: User) => Promise<string>
   updatePassword: (id:string, data:{ password: string, newPassword: string }) => Promise<string>,
@@ -19,32 +19,33 @@ export class UserUseCase {
     @inject("IUserRepository") private repository: IUserRepository
   ) {}
 
-  async save (user: User) {
+  async create (user: User) {
     const PASSWORD_ENCRYPTED = await argon2.hash(user.password);
 
     const dto = UserFactory.save({
       email: user.email,
       password: PASSWORD_ENCRYPTED,
-      datails: {
+      details: {
         name: user.details.name,
         age: user.details.age,
         phone: user.details.phone,
         thumbnail: {
           location: "users",
-          url: user.details.thumbnail?.url || ""
+          url: user.details.thumbnail?.url || "",
+          upload: user.details.thumbnail?.upload || false
         },
       }
     })
 
-    return await this.repository.save(dto);
+    return await this.repository.create(dto);
   }
 
-  async findAll () {
-    return await this.repository.users();
+  async views () {
+    return await this.repository.views();
   }
 
-  async findById (id: string) {
-    return await this.repository.user(id);
+  async viewById (id: string) {
+    return await this.repository.viewById(id);
   }
 
   async findCacheById (id: string) {
@@ -55,13 +56,14 @@ export class UserUseCase {
     const dto = UserFactory.save({
       email: user.email,
       password: user.password,
-      datails: {
+      details: {
         name: user.details.name,
         age: user.details.age,
         phone: user.details.phone,
         thumbnail: {
           location: "users",
-          url: user.details.thumbnail?.url || ""
+          url: user.details.thumbnail?.url || "",
+          upload: user.details.thumbnail?.upload || false
         },
       }
     })

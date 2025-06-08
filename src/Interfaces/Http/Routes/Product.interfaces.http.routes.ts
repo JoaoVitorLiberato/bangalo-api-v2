@@ -27,7 +27,6 @@ router.get("/products",
         tumbnail: t.Object({
           location: t.String(),
           url: t.String(),
-          upload: t.Boolean()
         }),
         categoryId: t.String(),
         differences: t.Object({
@@ -82,8 +81,7 @@ router
           price: t.Number(),
           tumbnail: t.Object({
             location: t.String(),
-            url: t.String(),
-            upload: t.Boolean()
+            url: t.String()
           }),
           differences: t.Object({
             especial: t.Object({

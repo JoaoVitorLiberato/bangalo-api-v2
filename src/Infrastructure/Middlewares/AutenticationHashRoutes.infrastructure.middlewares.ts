@@ -35,7 +35,7 @@ export class AutenticationHashMiddleware {
       }
     }
 
-    const USER = await this._service.findById(DECRYPTED_TOKEN);
+    const USER = await this._service.veiwById(DECRYPTED_TOKEN);
 
     if (!USER) {
       set.status = 401;

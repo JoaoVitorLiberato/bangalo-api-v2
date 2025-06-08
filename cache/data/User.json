@@ -1,0 +1,13 @@
+{
+  "email": "teste@admin.com",
+  "details": {
+      "name": "Test details",
+      "age": 18,
+      "phone": "21967559557",
+      "thumbnail": {
+          "location": "users",
+          "url": "public/storage/users/temaki-sushi-hand-rolls.jpg",
+          "upload": false
+      }
+  }
+}

@@ -39,7 +39,7 @@ interface ProductFactoryProps {
 
 export class ProductFactory {
   static save (data: ProductFactoryProps): Product {
-    const TUMBNAIL = new Thumbnail(data.tumbnail.url, data.tumbnail.location);
+    const TUMBNAIL = new Thumbnail(data.tumbnail.location, data.tumbnail.url, data.tumbnail.upload);
     const NAME = new Name(data.name);
     const DESCRIPTION = new Description(data.description);
     const PRICE = new Price(data.price);
