@@ -1,25 +1,78 @@
 import { Context, Elysia } from "elysia";
 import { OrderController } from "../Controllers/OrderController.interfaces.http.controllers";
 import { AutenticationHashMiddleware } from "../../../Infrastructure/Middlewares/AutenticationHashRoutes.infrastructure.middlewares";
-import { ElysiaWS } from '@elysiajs/websocket';
 import { t } from "elysia";
 
-const route = new Elysia();
+const router = new Elysia();
 const clients: Set<WebSocket> = new Set();
 
 const controller = new OrderController();
 const middleware = new AutenticationHashMiddleware();
 
-route
-  .ws("/ws", {
-    open(ws: ElysiaWS) {
+router.get("/order/today/:phone",
+  (ctx) => controller.viewByPhone(ctx as Context),
+  {
+    tags: ["Order"],
+    detail: {
+      summary: "Visualiza pedido pelo telefone",
+      description: "Visualiza um pedido pelo telefone",
+      params: {
+        phone: "Telefone do cliente"
+      }
+    },
+    response: {
+      200: t.Array(t.Object({
+        nome: t.String(),
+        telefone: t.String(),
+        mensagem: t.String(),
+        segmento: t.String(),
+        status: t.String(),
+        produtos: t.Array(t.Object({
+          id: t.String(),
+          name: t.String(),
+          price: t.Number(),
+          quantity: t.Number(),
+          total: t.Number(),
+        })),
+        pagamento: t.Object({
+          formaPagamento: t.String(),
+          statusPagamento: t.String(),
+          valorFrete: t.Number(),
+          valorProdutos: t.Number(),
+          valorTotal: t.Number(),
+        }),
+        createdAt: t.Date(),
+        updatedAt: t.Date(),
+      })),
+      400: t.Object({
+        codigo: t.String(),
+        mensagem: t.String(),
+      }),
+      404: t.Object({
+        codigo: t.String(),
+        mensagem: t.String(),
+      }),
+    }
+  }
+);
+
+router
+  .ws("/orders", {
+    open(ws) {
+      const { token: HASH } = ws.data.query;
+
+      if (!HASH) {
+        ws.close();
+        return;
+      }
+
       clients.add(ws as any);
       ws.send(`🧩 Conectado ao canal de pedidos.`);
     },
-    message(ws: any) {
+    message(ws) {
       ws.send("🧩 Pedido Recebido com sucesso");
     },
-    close(ws: any) {
+    close(ws) {
       clients.delete(ws as any);
     },
   })
@@ -92,10 +145,11 @@ route
     }
   );
 
-route
+// TODO: Verificar se é necessário o token de autenticação
+router
   .onBeforeHandle((ctx) => middleware.validate(ctx as Context))
   .get(
-    "/orders", (ctx) => controller.views(ctx as Context),
+    "/orders/all", (ctx) => controller.views(ctx as Context),
     {
       tags: ["Order"],
       detail: {
@@ -148,6 +202,8 @@ route
             campaign: t.String(),
             params: t.Record(t.String(), t.Union([t.String(), t.Number(), t.Boolean()]))
           }),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
         })),
         400: t.Object({
           codigo: t.String(),
@@ -157,8 +213,233 @@ route
     }
   )
 
+router
+  .onBeforeHandle((ctx) => middleware.validate(ctx as Context))
+  .get(
+    "/order/:id", (ctx) => controller.viewById(ctx as Context),
+    {
+      tags: ["Order"],
+      detail: {
+        summary: "Visualiza pedido pelo ID",
+        description: "Visualiza um pedido pelo ID",
+        params: {
+          id: "ID do pedido"
+        }
+      },
+      response: {
+        200: t.Object({
+          id: t.String(),
+          canal: t.String(),
+          nome: t.String(),
+          segmento: t.String(),
+          status: t.String(),
+          telefone: t.String(),
+          mensagem: t.String(),
+          produtos: t.Array(t.Object({
+            id: t.String(),
+            name: t.String(),
+            price: t.Number(),
+            quantity: t.Number(),
+            total: t.Number(),
+            complements: t.Array(t.Object({
+              id: t.String(),
+              name: t.String(),
+              price: t.Number(),
+              quantity: t.Number(),
+            })),
+          })),
+          pagamento: t.Object({
+            formaPagamento: t.String(),
+            statusPagamento: t.String(),
+            valorFrete: t.Number(),
+            valorProdutos: t.Number(),
+            valorTotal: t.Number(),
+            desconto: t.Number(),
+          }),
+          endereco: t.Object({
+            cep: t.String(),
+            logradouro: t.String(),
+            bairro: t.String(),
+            cidade: t.String(),
+            uf: t.String(),
+            numero: t.String(),
+            complemento: t.String(),
+            referencia: t.String(),
+          }),
+          analytics: t.Object({
+            source: t.String(),
+            medium: t.String(),
+            campaign: t.String(),
+            params: t.Record(t.String(), t.Union([t.String(), t.Number(), t.Boolean()]))
+          }),
+        }),
+        400: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        })
+      }
+    }
+  )
+
+router
+  .onBeforeHandle((ctx) => middleware.validate(ctx as Context))
+  .get(
+    "/orders/today", (ctx) => controller.viewToday(ctx as Context),
+    {
+      tags: ["Order"],
+      detail: {
+        summary: "Visualiza pedido pelo ID",
+        description: "Visualiza um pedido pelo ID",
+        params: {
+          id: "ID do pedido"
+        }
+      },
+      response: {
+        200: t.Array(t.Object({
+          id: t.String(),
+          canal: t.String(),
+          nome: t.String(),
+          segmento: t.String(),
+          status: t.String(),
+          telefone: t.String(),
+          mensagem: t.String(),
+          produtos: t.Array(t.Object({
+            id: t.String(),
+            name: t.String(),
+            price: t.Number(),
+            quantity: t.Number(),
+            total: t.Number(),
+            complements: t.Array(t.Object({
+              id: t.String(),
+              name: t.String(),
+              price: t.Number(),
+              quantity: t.Number(),
+            })),
+          })),
+          pagamento: t.Object({
+            formaPagamento: t.String(),
+            statusPagamento: t.String(),
+            valorFrete: t.Number(),
+            valorProdutos: t.Number(),
+            valorTotal: t.Number(),
+            desconto: t.Number(),
+          }),
+          endereco: t.Object({
+            cep: t.String(),
+            logradouro: t.String(),
+            bairro: t.String(),
+            cidade: t.String(),
+            uf: t.String(),
+            numero: t.String(),
+            complemento: t.String(),
+            referencia: t.String(),
+          }),
+          analytics: t.Object({
+            source: t.String(),
+            medium: t.String(),
+            campaign: t.String(),
+            params: t.Record(t.String(), t.Union([t.String(), t.Number(), t.Boolean()]))
+          }),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        })),
+        400: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        })
+      }
+    }
+  )
+
+router
+  .onBeforeHandle((ctx) => middleware.validate(ctx as Context))
+  .patch(
+    "/order/update/:id", (ctx) => controller.update(ctx as Context),
+    {
+      tags: ["Order"],
+      detail: {
+        summary: "Atualiza um pedido",
+        description: "Atualiza um pedido",
+        params: {
+          id: "ID do pedido"
+        }
+      },
+      body: t.Object({
+        id: t.String(),
+        canal: t.String(),
+        nome: t.String(),
+        segmento: t.String(),
+        status: t.String(),
+        telefone: t.String(),
+        mensagem: t.String(),
+        produtos: t.Array(t.Object({
+          id: t.String(),
+          name: t.String(),
+          price: t.Number(),
+          quantity: t.Number(),
+          total: t.Number(),
+          complements: t.Array(t.Object({
+            id: t.String(),
+            name: t.String(),
+            price: t.Number(),
+            quantity: t.Number(),
+          })),
+        })),
+        pagamento: t.Object({
+          formaPagamento: t.String(),
+          statusPagamento: t.String(),
+          valorFrete: t.Number(),
+          valorProdutos: t.Number(),
+          valorTotal: t.Number(),
+          desconto: t.Number(),
+        }),
+      }),
+      response: {
+        200: t.Object({
+          mensagem: t.String(),
+        }),
+        400: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        }),
+        404: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        }),
+      }
+    }
+  )
+
+router
+  .onBeforeHandle((ctx) => middleware.validate(ctx as Context))
+  .delete(
+    "/order/delete/:id", (ctx) => controller.delete(ctx as Context),
+    {
+      tags: ["Order"],
+      detail: {
+        summary: "Deleta um pedido",
+        description: "Deleta um pedido",
+        params: {
+          id: "ID do pedido"
+        }
+      },
+      response: {
+        200: t.Object({
+          mensagem: t.String(),
+        }),
+        400: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        }),
+        404: t.Object({
+          codigo: t.String(),
+          mensagem: t.String(),
+        }),
+      }
+    }
+  )
 
 export {
-  route as RouteOrder,
+  router as RouteOrder,
   clients as ClientsWebSocket
 }

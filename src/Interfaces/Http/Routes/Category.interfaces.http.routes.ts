@@ -38,7 +38,10 @@ router
       tags: ["Category"],
       detail: {
         summary: "Listar uma categoria pelo ID",
-        description: "Retorna uma categoria cadastrada no banco de dados pelo ID"
+        description: "Retorna uma categoria cadastrada no banco de dados pelo ID",
+        params: {
+          id: "ID da categoria"
+        }
       },
       security: [{ 
         apiKey: ["x-api-key"],
@@ -98,7 +101,10 @@ router
       tags: ["Category"],
       detail: {
         summary: "Atualizar uma categoria pelo ID",
-        description: "Atualiza uma categoria no banco de dados pelo ID"
+        description: "Atualiza uma categoria no banco de dados pelo ID",
+        params: {
+          id: "ID da categoria"
+        }
       },
       security: [{ 
         apiKey: ["x-api-key"],
@@ -127,7 +133,10 @@ router
       tags: ["Category"],
       detail: {
         summary: "Deletar uma categoria pelo ID",
-        description: "Deleta uma categoria no banco de dados pelo ID"
+        description: "Deleta uma categoria no banco de dados pelo ID",
+        params: {
+          id: "ID da categoria"
+        }
       },
       security: [{ 
         apiKey: ["x-api-key"],

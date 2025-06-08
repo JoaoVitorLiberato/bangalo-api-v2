@@ -67,7 +67,10 @@ router
       tags: ["Product"],
       detail: {
         summary: "Listar um produto pelo ID",
-        description: "Retorna um produto cadastrado no banco de dados pelo ID"
+        description: "Retorna um produto cadastrado no banco de dados pelo ID",
+        params: {
+          id: "ID do produto"
+        }
       },
       security: [{
         apiKey: ["x-api-key"],
@@ -163,7 +166,7 @@ router
     tags: ["Product"],
     detail: {
       summary: "Criar um novo produto",
-      description: "Cria um novo produto no banco de dados"
+      description: "Cria um novo produto no banco de dados",
     },
     security: [{
       apiKey: ["x-api-key"],
@@ -188,7 +191,10 @@ router
       tags: ["Product"],
       detail: {
         summary: "Atualizar produto pelo ID",
-        description: "Atualiza um produto no banco de dados pelo ID"
+        description: "Atualiza um produto no banco de dados pelo ID",
+        params: {
+          id: "ID do produto"
+        }
       },
       security: [{
         apiKey: ["x-api-key"],
@@ -255,7 +261,10 @@ router
       tags: ["Product"],
       detail: {
         summary: "Deletar produto pelo ID",
-        description: "Deleta um produto no banco de dados pelo ID"
+        description: "Deleta um produto no banco de dados pelo ID",
+        params: {
+          id: "ID do produto"
+        }
       },
       security: [{
         apiKey: ["x-api-key"],

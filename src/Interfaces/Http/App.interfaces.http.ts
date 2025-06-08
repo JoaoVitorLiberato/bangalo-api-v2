@@ -4,7 +4,7 @@ import { cors } from "@elysiajs/cors";
 import "reflect-metadata";
 import dotenv from "dotenv";
 import { ConnectDatabase } from "../../Infrastructure/Database/ConnectDb.infrastructure.database";
-import { SetupOrderNotifications } from "../../Infrastructure/Redis/Redis.infrastructure.repositories.redis";
+import { RedisSubscribe } from "../../Infrastructure/Redis/Redis.Subscribe.infrastructure.redis";
 import { AutenticationApp } from "../../Infrastructure/Middlewares/AutenticationApp.infrastructure.middlewares";
 
 import { RouteOrder } from "./Routes/Order.interfaces.http.routes";
@@ -19,7 +19,9 @@ export const App = new Elysia()
   .onBeforeHandle((ctx) => AutenticationApp(ctx))
 
 ConnectDatabase()
-SetupOrderNotifications()
+
+const setupOrderNotifications = new RedisSubscribe()
+setupOrderNotifications.subscribe()
 
 App.use(cors())
 App.use(

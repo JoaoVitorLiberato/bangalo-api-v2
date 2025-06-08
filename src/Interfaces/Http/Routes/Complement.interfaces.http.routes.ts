@@ -40,7 +40,10 @@ router
       tags: ["Complement"],
       detail: {
         summary: "Listar um complemento pelo ID",
-        description: "Retorna um complemento cadastrado no banco de dados pelo ID"
+        description: "Retorna um complemento cadastrado no banco de dados pelo ID",
+        params: {
+          id: "ID do complemento"
+        }
       },
       security: [{ 
         apiKey: ["x-api-key"],
@@ -104,7 +107,10 @@ router
       tags: ["Complement"],
       detail: {
         summary: "Atualizar um complemento pelo ID",
-        description: "Atualiza um complemento no banco de dados pelo ID"
+        description: "Atualiza um complemento no banco de dados pelo ID",
+        params: {
+          id: "ID do complemento"
+        }
       },
       security: [{ 
         apiKey: ["x-api-key"],
@@ -135,7 +141,10 @@ router
       tags: ["Complement"],
       detail: {
         summary: "Deletar um complemento pelo ID",
-        description: "Deleta um complemento no banco de dados pelo ID"
+        description: "Deleta um complemento no banco de dados pelo ID",
+        params: {
+          id: "ID do complemento"
+        }
       },
       security: [{ 
         apiKey: ["x-api-key"],
