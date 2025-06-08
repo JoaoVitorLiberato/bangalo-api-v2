@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 
 import { Order } from "../../Domain/Entities/Order.domain.entities";
 import { OrderUseCase } from "../../Domain/Usecases/OrderUsecase.domain.usecases.order";
-import { NotificationServiceAdapter } from "../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
 import { Order_channel, RedisClient } from "../../Infrastructure/Redis/Redis.infrastructure.repositories.redis";
 
 @injectable()
@@ -10,7 +10,7 @@ import { Order_channel, RedisClient } from "../../Infrastructure/Redis/Redis.inf
 export class OrderService {
   constructor (
     private order: OrderUseCase,
-    private notify: NotificationServiceAdapter
+    private notify: InternalNotificationServiceAdapter
   ) {}
 
   async create (order: Order): Promise<any> {

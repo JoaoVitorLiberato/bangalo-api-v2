@@ -1,13 +1,13 @@
 import { injectable } from "tsyringe";
 import { ComplementUseCase } from "../../Domain/Usecases/ComplementUseCase.domain.usecases";
 import { Complement } from "../../Domain/Entities/Complement.domain.entities";
-import { NotificationServiceAdapter } from "../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters"      ;
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters"      ;
 
 @injectable()
 export class ComplementService {
   constructor(
     private readonly complement: ComplementUseCase,
-    private readonly notify: NotificationServiceAdapter
+    private readonly notify: InternalNotificationServiceAdapter
   ) {}
 
   async create (data: Complement): Promise<any> {

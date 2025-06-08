@@ -29,15 +29,12 @@ CREATE TABLE complements (
 
 CREATE TABLE products (
   id CHAR(36) PRIMARY KEY,
+  tumbnail JSON,
   name VARCHAR(255) NOT NULL,
-  url_image TEXT NOT NULL,
   description TEXT NOT NULL,
-  price JSON,
+  price INTEGER NOT NULL,
   differences JSON,
   note_client DOUBLE,
-  apper_start BOOLEAN,
-  hero_product BOOLEAN,
-  upload BOOLEAN,
   categoryId CHAR(36) NOT NULL,
   CONSTRAINT `fk_category_id` FOREIGN KEY (`categoryId`) REFERENCES `categories`(`id`),
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

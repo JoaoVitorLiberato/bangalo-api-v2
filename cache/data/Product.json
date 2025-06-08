@@ -1,0 +1,32 @@
+{
+  "tumbnail": {
+    "url": "",
+    "location": "products",
+    "upload": true
+  },
+  "categoryId": "50bf18b3-170c-46f7-be64-fd1bcf561f70",
+  "name": "Product NOVO",
+  "description": "Description 1",
+  "price": 100,
+  "differences": {
+    "especial": {
+      "readonly": false,
+      "input": "desatived",
+      "active": false,
+      "additional": 0
+    },
+    "breaded": {
+      "readonly": false,
+      "input": "desatived",
+      "active": false,
+      "additional": 0
+    },
+    "flambed": {
+      "readonly": false,
+      "input": "desatived",
+      "active": false,
+      "additional": 0
+    }
+  },
+  "note_client": 0
+}

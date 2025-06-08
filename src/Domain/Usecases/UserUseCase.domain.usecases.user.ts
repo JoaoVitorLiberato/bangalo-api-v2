@@ -31,7 +31,7 @@ export class UserUseCase {
         phone: user.details.phone,
         thumbnail: {
           location: "users",
-          url_image: user.details.thumbnail?.url_image || ""
+          url: user.details.thumbnail?.url || ""
         },
       }
     })
@@ -61,7 +61,7 @@ export class UserUseCase {
         phone: user.details.phone,
         thumbnail: {
           location: "users",
-          url_image: user.details.thumbnail?.url_image || ""
+          url: user.details.thumbnail?.url || ""
         },
       }
     })

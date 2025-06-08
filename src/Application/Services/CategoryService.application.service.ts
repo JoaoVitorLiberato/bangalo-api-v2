@@ -1,13 +1,13 @@
 import { injectable } from "tsyringe";
 import { CategoryUseCase } from "../../Domain/Usecases/CategoryUseCase.domain.usecases";
 import { Category } from "../../Domain/Entities/Cotegory.domain.entities";
-import { NotificationServiceAdapter } from "../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters"      ;
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters"      ;
 
 @injectable()
 export class CategoryService {
   constructor(
     private readonly category: CategoryUseCase,
-    private readonly notify: NotificationServiceAdapter
+    private readonly notify: InternalNotificationServiceAdapter
   ) {}
 
   async create (data: Category): Promise<any> {

@@ -17,7 +17,7 @@ describe("UserUseCase", () => {
         phone: "21967559557",
         thumbnail: {
           location: "users",
-          url_image: "public/test"
+          url: "public/test"
         }
       }
     } as User)
@@ -34,6 +34,6 @@ describe("UserUseCase", () => {
     expect(user.details.age).toBe(18);
     expect(user.details.phone).toBe("21967559557");
     expect(user.details.thumbnail?.location).toBe("users");
-    expect(user.details.thumbnail?.url_image).toBe("public/test");
+    expect(user.details.thumbnail?.url).toBe("public/test");
   });
 });

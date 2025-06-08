@@ -8,7 +8,7 @@ export class User {
     phone: string;
     thumbnail?: {
       location: "users";
-      url_image: string;
+      url: string;
     };
   };
 
@@ -21,7 +21,7 @@ export class User {
       phone: string;
       thumbnail?: {
         location: "users";
-        url_image: string;
+        url: string;
       };
     },
     id?: string

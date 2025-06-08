@@ -56,6 +56,6 @@ export const ProductModel = Database.define(
   {
     tableName: "products",
     timestamps: true,
-    underscored: true
+    underscored: false
   }
 );

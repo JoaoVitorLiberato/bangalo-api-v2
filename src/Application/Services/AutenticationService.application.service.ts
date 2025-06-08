@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 import { AutenticationUserCase } from "../../Domain/Usecases/AutenticationUseCase.domain.usecases";
-import { NotificationServiceAdapter } from "../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
 import { User } from "../../Domain/Entities/User.domain.entities";
 import argon2 from "argon2";
 import CryptoJS from "crypto-js";
@@ -9,7 +9,7 @@ import CryptoJS from "crypto-js";
 export class AutenticationService {
   constructor (
     private autentication: AutenticationUserCase,
-    private notify: NotificationServiceAdapter
+    private notify: InternalNotificationServiceAdapter
   ) {}
 
   async login (email: string, password: string): Promise<any> {

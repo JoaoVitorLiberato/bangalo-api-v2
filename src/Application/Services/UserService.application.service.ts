@@ -3,13 +3,13 @@ import argon2 from "argon2"
 
 import { User } from "../../Domain/Entities/User.domain.entities";
 import { UserUseCase } from "../../Domain/Usecases/UserUseCase.domain.usecases.user";
-import { NotificationServiceAdapter } from "../../Infrastructure/Adapters/NotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
 
 @injectable()
 export class UserService {
   constructor (
     private user: UserUseCase,
-    private notify: NotificationServiceAdapter
+    private notify: InternalNotificationServiceAdapter
   ) {}
 
   async create (user: User): Promise<any> {

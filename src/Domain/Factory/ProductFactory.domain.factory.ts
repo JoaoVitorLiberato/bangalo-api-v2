@@ -49,7 +49,7 @@ export class ProductFactory {
 
     return new Product(
       {
-        url: TUMBNAIL.url_image,
+        url: TUMBNAIL.url,
         location: TUMBNAIL.location,
         upload: data.tumbnail.upload,
       },

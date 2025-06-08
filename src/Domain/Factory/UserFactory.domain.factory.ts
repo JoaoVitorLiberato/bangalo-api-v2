@@ -24,7 +24,7 @@ export class UserFactory {
     const NAME = new Name(data.datails.name);
     const AGE = new Age(data.datails.age);
     const PHONE = new Phone(data.datails.phone);
-    const THUMBNAIL = data.datails.thumbnail ? new Thumbnail(data.datails.thumbnail.location, data.datails.thumbnail.url_image) : undefined;
+    const THUMBNAIL = data.datails.thumbnail ? new Thumbnail(data.datails.thumbnail.location, data.datails.thumbnail.url) : undefined;
 
     return new User(
       EMAIL.getValue(),
@@ -35,7 +35,7 @@ export class UserFactory {
         phone: PHONE.getValue(),
         thumbnail: THUMBNAIL ? {
           location: "users",
-          url_image: THUMBNAIL.url_image
+          url: THUMBNAIL.url
         } : undefined
       }
     );

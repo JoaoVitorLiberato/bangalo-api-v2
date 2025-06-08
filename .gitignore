@@ -33,6 +33,7 @@ yarn-error.log*
 
 logs
 cache/database/*
+cache/image/*
 node_modules
 dist
 img
