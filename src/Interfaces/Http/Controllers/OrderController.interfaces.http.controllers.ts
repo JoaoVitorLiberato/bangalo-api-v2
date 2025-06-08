@@ -11,27 +11,26 @@ import "../../../Shared/Containers/Controllers/OrderContainer.shared.containers.
 export class OrderController {
   private _service = container.resolve(OrderService)
 
-  async createOrder ({ body, set }: Context) {
+  async create ({ body, set }: Context) {
     try {
-      const dto = body as Order
-      const PAYLOAD = new Order(
-        dto.canal,
-        dto.status,
-        dto.nome,
-        dto.segmento,
-        dto.telefone,
-        dto.mensagem,
-        dto.produtos,
-        dto.pagamento,
-        dto.endereco,
-        dto.analytics
-      );
-
-      const ResponseService = await this._service.create(PAYLOAD);
+      const ResponseService = await this._service.create(body as Order);
       if (/^(erro-create-order)$/i.test(String(ResponseService.codigo))) {
         set.status = 400;
         return ResponseService;
       }
+
+      return ResponseService;
+    } catch (error) {
+      set.status = 500;
+      console.error("ERROR - OrderController", error);
+      return "Erro Server";
+    }
+  }
+
+  async views ({ set }: Context) {
+    try {
+      const ResponseService = await this._service.views();
+      if (/^(error-views-order)$/i.test(String(ResponseService.codigo))) set.status = 400;
 
       return ResponseService;
     } catch (error) {

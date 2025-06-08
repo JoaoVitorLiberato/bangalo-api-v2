@@ -1,19 +1,25 @@
 import { inject, injectable } from "tsyringe";
+import { OrderFactory } from "../Factory/OrderFactory.domain.factory";
 import { Order } from "../Entities/Order.domain.entities";
 
 export interface IOrderRepository {
-  save(order: Order): Promise<Order|string>;
+  create (order: Order): Promise<Order|string>;
+  views (): Promise<Order[]|string>;
 }
 
-@injectable()
+@injectable({})
 export class OrderUseCase {
   constructor (
     @inject("IOrderRepository") private repository: IOrderRepository
   ) {}
 
-  async execute (order: Order) {
-    if (!order.valid()) throw new Error("Os dados do seu pedido estão invalidos, verifique-os.");
-    return await this.repository.save(order);
+  async create (order: Order) {
+    const dto = OrderFactory.save(order);
+    return await this.repository.create(dto);
+  }
+
+  async views () {
+    return await this.repository.views();
   }
 }
 

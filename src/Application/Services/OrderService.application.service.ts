@@ -6,7 +6,6 @@ import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapter
 import { Order_channel, RedisClient } from "../../Infrastructure/Redis/Redis.infrastructure.repositories.redis";
 
 @injectable()
-
 export class OrderService {
   constructor (
     private order: OrderUseCase,
@@ -15,7 +14,7 @@ export class OrderService {
 
   async create (order: Order): Promise<any> {
     try {
-      await this.order.execute(order);
+      await this.order.create(order);
       await RedisClient.publish(Order_channel, JSON.stringify({ data: order }));
 
       return await this.notify.send({
@@ -26,6 +25,21 @@ export class OrderService {
       return await this.notify.send({
         codigo: "erro-create-order",
         mensagem: "Houve um erro ao tentar criar um pedido",
+      });
+    }
+  }
+
+  async views (): Promise<any> {
+    try {
+      const response = await this.order.views();
+      if (/^(error-views-order-model)$/i.test(String(response))) throw new Error("Houve um erro ao tentar visualizar os pedidos.");
+
+      return response;
+    } catch (error) {
+      console.error("[ERROR OrderService]", error);
+      return await this.notify.send({
+        codigo: "erro-views-order",
+        mensagem: "Houve um erro ao tentar visualizar os pedidos",
       });
     }
   }

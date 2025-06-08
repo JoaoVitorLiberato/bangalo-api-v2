@@ -47,7 +47,9 @@ App.use(
           },
           authorization: {
             type: 'http',
-            scheme: 'bearer'
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+            description: 'JWT Authorization header using the Bearer scheme'
           }
         }
       }
