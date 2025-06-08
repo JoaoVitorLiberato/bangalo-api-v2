@@ -11,10 +11,12 @@ const router = new Elysia()
     async (ctx) =>  await controller.findAllUsers(ctx as Context),
     {
       tags: ["User"],
-      summary: "Buscar todos os usuários",
-      description: "Buscar todos os usuários",
+      detail: {
+        summary: "Buscar todos os usuários",
+        description: "Buscar todos os usuários"
+      },
       security: [{
-        bearerAuth: ["Authorization"],
+        authorization: ["Authorization"],
         apiKey: ["x-api-key"]
       }],
       response: {
@@ -45,10 +47,12 @@ const router = new Elysia()
         id: t.String()
       }),
       tags: ["User"],
-      summary: "Buscar usuário por ID",
-      description: "Buscar usuário por ID",
+      detail: {
+        summary: "Buscar usuário por ID",
+        description: "Buscar usuário por ID"
+      },
       security: [{
-        bearerAuth: ["Authorization"],
+        authorization: ["Authorization"],
         apiKey: ["x-api-key"]
       }],
       response: {
@@ -93,10 +97,12 @@ const router = new Elysia()
         })
       }),
       tags: ["User"],
-      summary: "Criar usuário",
-      description: "Criar usuário",
+      detail: {
+        summary: "Criar um novo usuário",
+        description: "Criar um novo usuário no banco de dados"
+      },
       security: [{
-        bearerAuth: ["Authorization"],
+        authorization: ["Authorization"],
         apiKey: ["x-api-key"]
       }],
       response: {
@@ -132,10 +138,12 @@ const router = new Elysia()
         })
       }),
       tags: ["User"],
-      summary: "Atualizar usuário",
-      description: "Atualizar usuário",
+      detail: {
+        summary: "Atualizar um usuário pelo ID",
+        description: "Atualiza um usuário no banco de dados pelo ID"
+      },
       security: [{
-        bearerAuth: ["Authorization"],
+        authorization: ["Authorization"],
         apiKey: ["x-api-key"]
       }],
       response: {
@@ -153,7 +161,7 @@ const router = new Elysia()
       }
     }
   )
-  .put("/user/update/:id/password",
+  .patch("/user/update/:id/password",
     async (ctx) => await controller.updatePassword(ctx as Context),
     {
       body: t.Object({
@@ -161,10 +169,12 @@ const router = new Elysia()
         password: t.String(),
       }),
       tags: ["User"],
-      summary: "Atualizar usuário",
-      description: "Atualizar usuário",
+      detail: {
+        summary: "Atualizar a senha de um usuário pelo ID",
+        description: "Atualiza a senha de um usuário no banco de dados pelo ID"
+      },
       security: [{
-        bearerAuth: ["Authorization"],
+        authorization: ["Authorization"],
         apiKey: ["x-api-key"]
       }],
       response: {
@@ -194,10 +204,12 @@ const router = new Elysia()
         id: t.String()
       }),
       tags: ["User"],
-      summary: "Deletar usuário",
-      description: "Deletar o usuaário pelo ID",
+      detail: {
+        summary: "Deletar um usuário pelo ID",
+        description: "Deleta um usuário no banco de dados pelo ID"
+      },
       security: [{
-        bearerAuth: ["Authorization"],
+        authorization: ["Authorization"],
         apiKey: ["x-api-key"]
       }],
       response: {

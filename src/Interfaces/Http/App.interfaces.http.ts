@@ -45,7 +45,7 @@ App.use(
             name: 'x-api-key',
             in: 'header'
           },
-          bearerAuth: {
+          authorization: {
             type: 'http',
             scheme: 'bearer'
           }

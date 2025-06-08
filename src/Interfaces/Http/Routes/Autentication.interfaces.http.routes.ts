@@ -9,8 +9,10 @@ route
     async (ctx) => await controller.login(ctx as Context), 
     {
       tags: ["Authentication"],
-      summary: "Login do usuário",
-      description: "Autenticação com email e senha",
+      detail:{
+        summary: "Login do usuário",
+        description: "Autenticação com email e senha",
+      },
       security: [{
         apiKey: ["x-api-key"]
       }],

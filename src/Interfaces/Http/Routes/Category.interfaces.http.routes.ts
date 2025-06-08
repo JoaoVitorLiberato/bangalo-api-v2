@@ -12,6 +12,10 @@ router
     (ctx) => controller.views(ctx as Context),
     {
       tags: ["Category"],
+      detail: {
+        summary: "Listar todas as categorias",
+        description: "Retorna todas as categorias cadastradas no banco de dados"
+      },
       security: [{ apiKey: ["x-api-key"] }],
       response: {
         200: t.Array(t.Object({
@@ -32,6 +36,10 @@ router
     (ctx) => controller.viewById(ctx as Context),
     {
       tags: ["Category"],
+      detail: {
+        summary: "Listar uma categoria pelo ID",
+        description: "Retorna uma categoria cadastrada no banco de dados pelo ID"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
@@ -59,6 +67,10 @@ router
     (ctx) => controller.create(ctx as Context),
     {
       tags: ["Category"],
+      detail: {
+        summary: "Criar uma categoria",
+        description: "Cria uma categoria no banco de dados"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
@@ -84,6 +96,10 @@ router
     (ctx) => controller.update(ctx as Context),
     {
       tags: ["Category"],
+      detail: {
+        summary: "Atualizar uma categoria pelo ID",
+        description: "Atualiza uma categoria no banco de dados pelo ID"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
@@ -109,6 +125,10 @@ router
     (ctx) => controller.delete(ctx as Context),
     {
       tags: ["Category"],
+      detail: {
+        summary: "Deletar uma categoria pelo ID",
+        description: "Deleta uma categoria no banco de dados pelo ID"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]

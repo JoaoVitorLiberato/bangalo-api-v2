@@ -3,11 +3,11 @@ import { ProductFactory } from "../Factory/ProductFactory.domain.factory";
 import { Product } from "../Entities/Product.domain.entities";
 
 export interface IProductRepository {
-  save(product: Product): Promise<string>;
-  // findById(id: string): Promise<Product>;
-  // findAll(): Promise<Product[]>;
-  // update(id: string, product: Product): Promise<Product>;
-  // delete(id: string): Promise<void>;
+  create (product: Product): Promise<string>;
+  views(): Promise<Product[]|string>;
+  viewById(id: string): Promise<Product|string>;
+  update(id: string, product: Product): Promise<string>;
+  delete(id: string): Promise<string>;
 }
 
 @injectable()
@@ -31,6 +31,22 @@ export class ProductUserCase {
       note_client: product.note_client,
     });
 
-    return await this.repository.save(dto);
+    return await this.repository.create(dto);
+  }
+
+  async views (): Promise<Product[]|string> {
+    return await this.repository.views();
+  }
+
+  async viewById (id: string): Promise<Product|string> {
+    return await this.repository.viewById(id);
+  }
+
+  async update (id: string, product: Product): Promise<string> {
+    return await this.repository.update(id, product);
+  }
+
+  async delete (id: string): Promise<string> {
+    return await this.repository.delete(id);
   }
 }

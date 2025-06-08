@@ -12,6 +12,10 @@ router
     (ctx) => controller.views(ctx as Context),
     {
       tags: ["Complement"],
+      detail: {
+        summary: "Listar todos os complementos",
+        description: "Retorna todos os complementos cadastrados no banco de dados"
+      },
       security: [{ apiKey: ["x-api-key"] }],
       response: {
         200: t.Array(t.Object({
@@ -34,6 +38,10 @@ router
     (ctx) => controller.viewById(ctx as Context),
     {
       tags: ["Complement"],
+      detail: {
+        summary: "Listar um complemento pelo ID",
+        description: "Retorna um complemento cadastrado no banco de dados pelo ID"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
@@ -63,6 +71,10 @@ router
     (ctx) => controller.create(ctx as Context),
     {
       tags: ["Complement"],
+      detail: {
+        summary: "Criar um complemento",
+        description: "Cria um complemento no banco de dados"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
@@ -90,6 +102,10 @@ router
     (ctx) => controller.update(ctx as Context),
     {
       tags: ["Complement"],
+      detail: {
+        summary: "Atualizar um complemento pelo ID",
+        description: "Atualiza um complemento no banco de dados pelo ID"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
@@ -117,6 +133,10 @@ router
     (ctx) => controller.delete(ctx as Context),
     {
       tags: ["Complement"],
+      detail: {
+        summary: "Deletar um complemento pelo ID",
+        description: "Deleta um complemento no banco de dados pelo ID"
+      },
       security: [{ 
         apiKey: ["x-api-key"],
         bearer: ["Authorization"]
