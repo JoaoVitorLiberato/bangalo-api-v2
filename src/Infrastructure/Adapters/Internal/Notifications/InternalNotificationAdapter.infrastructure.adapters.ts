@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { IInternalNotification } from "../../../Domain/Ports/Notifications/InterntalNotificationsPort.domain.ports.notifications";
+import { IInternalNotification } from "../../../../Domain/Ports/Notifications/InterntalNotificationsPort.domain.ports.notifications";
 
 @injectable()
 export class InternalNotificationServiceAdapter implements IInternalNotification {

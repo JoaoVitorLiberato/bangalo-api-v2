@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 import { AutenticationUserCase } from "../../Domain/Usecases/AutenticationUseCase.domain.usecases";
-import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { User } from "../../Domain/Entities/User.domain.entities";
 import argon2 from "argon2";
 import CryptoJS from "crypto-js";

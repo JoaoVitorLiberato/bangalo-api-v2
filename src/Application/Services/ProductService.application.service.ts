@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import { ProductUserCase } from "../../Domain/Usecases/ProductUserCase.domain.usecases";
 import { Product } from "../../Domain/Entities/Product.domain.entities";
-import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 
 @injectable()
 export class ProductService {

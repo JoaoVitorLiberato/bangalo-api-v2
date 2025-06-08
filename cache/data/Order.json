@@ -20,7 +20,7 @@
       "name": "Sunomono misto",
       "price": 1500,
       "quantity": 2,
-      "total": 3000,
+      "total": 4600,
       "complements": [
         {
           "id": "a6e48743-d0ff-4f25-9890-562dfcc10295",
@@ -32,7 +32,7 @@
         {
           "id": "a6e48743-d0ff-4f25-9890-562dfcc10295",
           "name": "Molho Tarê",
-          "price": 1200,
+          "price": 400,
           "quantity": 3,
           "total": 1200
         }

@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 
 import { Order } from "../../Domain/Entities/Order.domain.entities";
 import { OrderUseCase } from "../../Domain/Usecases/OrderUsecase.domain.usecases.order";
-import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { RedisPublish } from "../../Infrastructure/Redis/RedisPublish.infrastructure.redis";
 
 @injectable()

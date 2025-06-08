@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import { CategoryUseCase } from "../../Domain/Usecases/CategoryUseCase.domain.usecases";
 import { Category } from "../../Domain/Entities/Cotegory.domain.entities";
-import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters"      ;
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters"      ;
 
 @injectable()
 export class CategoryService {

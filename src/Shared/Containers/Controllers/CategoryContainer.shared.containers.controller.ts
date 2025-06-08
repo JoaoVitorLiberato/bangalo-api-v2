@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 
 import { CategoryRepository } from "../../../Infrastructure/Repositories/Category.infrastructure.repositories";
-import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { CategoryUseCase, ICategoryRepository } from "../../../Domain/Usecases/CategoryUseCase.domain.usecases";
 import { CategoryService } from "../../../Application/Services/CategoryService.application.service";
 

@@ -3,7 +3,7 @@ import argon2 from "argon2"
 
 import { User } from "../../Domain/Entities/User.domain.entities";
 import { UserUseCase } from "../../Domain/Usecases/UserUseCase.domain.usecases.user";
-import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 
 @injectable()
 export class UserService {

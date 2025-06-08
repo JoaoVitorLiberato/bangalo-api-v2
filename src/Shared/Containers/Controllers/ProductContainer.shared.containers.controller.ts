@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 import { ProductService } from "../../../Application/Services/ProductService.application.service";
-import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { ProductUserCase, IProductRepository } from "../../../Domain/Usecases/ProductUserCase.domain.usecases";
 import { ProductRepository } from "../../../Infrastructure/Repositories/Product.infrastructure.repositories";
 

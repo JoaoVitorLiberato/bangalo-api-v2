@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import axios from "axios"
 import { IStorageBangalo } from "../../../../Application/Contracts/IStorageBangalo.application.contracts";
-import { InternalNotificationServiceAdapter } from "../../Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 
 export const storageBangalo = axios.create({
   baseURL: process.env.STORAGE_SERVICE

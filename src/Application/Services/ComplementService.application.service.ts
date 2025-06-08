@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import { ComplementUseCase } from "../../Domain/Usecases/ComplementUseCase.domain.usecases";
 import { Complement } from "../../Domain/Entities/Complement.domain.entities";
-import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters"      ;
+import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters"      ;
 
 @injectable()
 export class ComplementService {

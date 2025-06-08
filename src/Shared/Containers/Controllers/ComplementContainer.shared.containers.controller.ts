@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 
 import { ComplementRepository } from "../../../Infrastructure/Repositories/Complement.infrastructure.repositories";
-import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/InternalNotificationAdapter.infrastructure.adapters";
+import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { ComplementUseCase, IComplementRepository } from "../../../Domain/Usecases/ComplementUseCase.domain.usecases";
 import { ComplementService } from "../../../Application/Services/ComplementService.application.service";
 
