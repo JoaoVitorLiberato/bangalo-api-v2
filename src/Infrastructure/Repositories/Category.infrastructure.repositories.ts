@@ -1,5 +1,5 @@
 import { Category } from "../../Domain/Entities/Cotegory.domain.entities";
-import { ICategoryRepository } from "../../Domain/Usecases/CategoryUseCase.domain.usecases";
+import { ICategoryRepository } from "../../Application/Usecases/CategoryUseCase.application.usecases";
 import { CategoryModel } from "../Database/Models/Category.infrastructure.database.models";
 
 export class CategoryRepository implements ICategoryRepository {

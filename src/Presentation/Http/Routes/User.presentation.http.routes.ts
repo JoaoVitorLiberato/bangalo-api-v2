@@ -1,5 +1,5 @@
 import { Context, Elysia, t } from "elysia";
-import { UserController } from "../Controllers/UserController.interfaces.http.controllers";
+import { UserController } from "../Controllers/UserController.presentation.http.controller";
 import { AutenticationHashMiddleware } from "../../../Infrastructure/Middlewares/AutenticationHashRoutes.infrastructure.middlewares";
 
 const middleware = new AutenticationHashMiddleware();

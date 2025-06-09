@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { ProductUserCase } from "../../Domain/Usecases/ProductUserCase.domain.usecases";
+import { ProductUserCase } from "../Usecases/ProductUserCase.application.usecases";
 import { Product } from "../../Domain/Entities/Product.domain.entities";
 import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 

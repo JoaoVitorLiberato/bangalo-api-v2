@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
-import { Category } from "../Entities/Cotegory.domain.entities";
-import { CategoryFactory } from "../Factory/CategoryFactory.domain.factory";
+import { Category } from "../../Domain/Entities/Cotegory.domain.entities";
+import { CategoryFactory } from "../../Domain/Factory/CategoryFactory.domain.factory";
 
 export interface ICategoryRepository {
   create: (complement: Category) => Promise<Category|string>;

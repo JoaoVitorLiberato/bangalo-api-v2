@@ -16,7 +16,6 @@ services:
     environment:
       - APPLICATION_KEY=Plk6JcBo3MQ485PEeWAHTbJH342ASDAS+cPd7Ikn
       - APPLICATION_PORT=3000
-      - APPLICATION_PAYMENT_KEY=lk6JcBo3MQ485PEeWAHTbJHUtJrTq+cPd7Ikn
       - NODE_ENV=development
       - MARIADB_USER=application
       - MARIADB_DATABASE=bangalo

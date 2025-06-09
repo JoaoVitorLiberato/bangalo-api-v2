@@ -2,7 +2,7 @@ import { container } from "tsyringe"
 import { UserService } from "../../../Application/Services/UserService.application.service"
 import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters"
 import { UserRepository } from "../../../Infrastructure/Repositories/User.infrastructure.repositories"
-import { IUserRepository, UserUseCase } from "../../../Domain/Usecases/UserUseCase.domain.usecases.user"
+import { IUserRepository, UserUseCase } from "../../../Application/Usecases/UserUseCase.domain.application.user"
 
 container.register<IUserRepository>(
   "IUserRepository",

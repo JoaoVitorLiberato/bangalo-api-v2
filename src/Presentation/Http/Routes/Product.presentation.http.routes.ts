@@ -1,5 +1,5 @@
 import { Context, Elysia, t } from "elysia";
-import { ProductController } from "../Controllers/ProductController.interfaces.http";
+import { ProductController } from "../Controllers/ProductController.presentation.http.controller";
 import { AutenticationHashMiddleware } from "../../../Infrastructure/Middlewares/AutenticationHashRoutes.infrastructure.middlewares";
 
 const router = new Elysia()
@@ -287,5 +287,5 @@ router
   )
 
 export {
-  router as ProductRoutes
+  router as RouteProduct
 }

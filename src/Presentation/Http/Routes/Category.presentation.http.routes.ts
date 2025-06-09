@@ -1,5 +1,5 @@
 import { Context, Elysia, t } from "elysia";
-import { CategoryController } from "../Controllers/CategoryController.interfaces.http";
+import { CategoryController } from "../Controllers/CategoryController.presentation.http.controller";
 import { AutenticationHashMiddleware } from "../../../Infrastructure/Middlewares/AutenticationHashRoutes.infrastructure.middlewares";
 
 const router = new Elysia()

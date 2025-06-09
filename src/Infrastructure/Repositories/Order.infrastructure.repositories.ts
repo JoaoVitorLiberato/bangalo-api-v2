@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import { Order } from "../../Domain/Entities/Order.domain.entities";
-import { IOrderRepository } from "../../Domain/Usecases/OrderUsecase.domain.usecases.order";
+import { IOrderRepository } from "../../Application/Usecases/OrderUsecase.application.usecases";
 import { OrderModel } from "../Database/Models/Order.infrastructure.database.models";
 import { formatDateToYYYYMMDD } from "../../Shared/Utils/FormatDateToYYYYMMDD.shared.utils";
 

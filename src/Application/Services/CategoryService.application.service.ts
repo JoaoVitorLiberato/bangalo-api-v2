@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { CategoryUseCase } from "../../Domain/Usecases/CategoryUseCase.domain.usecases";
+import { CategoryUseCase } from "../Usecases/CategoryUseCase.application.usecases";
 import { Category } from "../../Domain/Entities/Cotegory.domain.entities";
 import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters"      ;
 

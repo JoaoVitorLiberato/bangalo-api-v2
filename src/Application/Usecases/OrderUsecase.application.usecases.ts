@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { OrderFactory } from "../Factory/OrderFactory.domain.factory";
-import { Order } from "../Entities/Order.domain.entities";
+import { OrderFactory } from "../../Domain/Factory/OrderFactory.domain.factory";
+import { Order } from "../../Domain/Entities/Order.domain.entities";
 
 export interface IOrderRepository {
   create (order: Order): Promise<Order|string>;

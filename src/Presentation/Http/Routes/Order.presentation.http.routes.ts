@@ -1,5 +1,5 @@
 import { Context, Elysia } from "elysia";
-import { OrderController } from "../Controllers/OrderController.interfaces.http.controllers";
+import { OrderController } from "../Controllers/OrderController.presentation.http.controller";
 import { AutenticationHashMiddleware } from "../../../Infrastructure/Middlewares/AutenticationHashRoutes.infrastructure.middlewares";
 import { t } from "elysia";
 
@@ -136,6 +136,9 @@ router
       response: {
         200: t.Object({
           mensagem: t.String(),
+          data: t.Object({
+            id: t.String(),
+          })
         }),
         400: t.Object({
           codigo: t.String(),

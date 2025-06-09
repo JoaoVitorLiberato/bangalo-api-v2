@@ -1,12 +1,13 @@
 import { injectable } from "tsyringe";
 
 import { Order } from "../../Domain/Entities/Order.domain.entities";
-import { OrderUseCase } from "../../Domain/Usecases/OrderUsecase.domain.usecases.order";
+import { OrderUseCase } from "../Usecases/OrderUsecase.application.usecases";
 import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { RedisPublish } from "../../Infrastructure/Redis/RedisPublish.infrastructure.redis";
+import { IOrderServices } from "../Contracts/IOrderServices.application.contracts";
 
 @injectable()
-export class OrderService {
+export class OrderService implements IOrderServices {
   constructor (
     private _service: OrderUseCase,
     private notify: InternalNotificationServiceAdapter,
@@ -21,7 +22,10 @@ export class OrderService {
       await this.redisPublish.publish(responseRepository as Order);
 
       return await this.notify.send({
-        mensagem: "Produco criado com sucesso"
+        mensagem: "Produco criado com sucesso",
+        data: {
+          id: (responseRepository as Order).id as string,
+        }
       });
     } catch (error) {
       console.error("[ERROR OrderService - create]", error);

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import argon2 from "argon2";
-import { User } from "../Entities/User.domain.entities";
-import { UserFactory } from "../Factory/UserFactory.domain.factory";
+import { User } from "../../Domain/Entities/User.domain.entities";
+import { UserFactory } from "../../Domain/Factory/UserFactory.domain.factory";
 
 export interface IUserRepository {
   create: (user: User) => Promise<User|string>,

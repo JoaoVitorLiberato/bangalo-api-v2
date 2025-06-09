@@ -1,5 +1,5 @@
 import { Context, Elysia, t } from "elysia";
-import { ComplementController } from "../Controllers/ComplementController.interfaces.http";
+import { ComplementController } from "../Controllers/ComplementController.presentation.http.controller";
 import { AutenticationHashMiddleware } from "../../../Infrastructure/Middlewares/AutenticationHashRoutes.infrastructure.middlewares";
 
 const router = new Elysia()

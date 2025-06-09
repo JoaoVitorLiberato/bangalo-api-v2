@@ -1,5 +1,5 @@
 import { Complement } from "../../Domain/Entities/Complement.domain.entities";
-import { IComplementRepository } from "../../Domain/Usecases/ComplementUseCase.domain.usecases";
+import { IComplementRepository } from "../../Application/Usecases/ComplementUseCase.application.usecases";
 import { ComplementModel } from "../Database/Models/Complement.infrastructure.database.models";
 
 export class ComplementRepository implements IComplementRepository {

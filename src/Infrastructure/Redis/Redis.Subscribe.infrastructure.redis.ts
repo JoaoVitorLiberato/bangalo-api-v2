@@ -1,23 +1,21 @@
 import Redis from "ioredis";
 import { IEventSubscribe } from "../../Application/Contracts/IEventSubscribe.application.contracts";
-import { ClientsWebSocket } from "../../Interfaces/Http/Routes/Order.interfaces.http.routes";
+import { IWebSocketPort } from "../../Domain/Ports/WebSocket/IWebSocket.domain.ports.websocket";
 
 export class RedisSubscribe implements IEventSubscribe {
-  private redisClient = new Redis({ host: "redis", port: 6379 });
   private _channel = "order_created";
 
+  constructor (
+    private readonly redisClient: Redis,
+    private readonly webSocket: IWebSocketPort
+  ) {}
+
   async subscribe (): Promise<void> {
-    await this.redisClient.subscribe(this._channel);
+    await this.redisClient.subscribe(String(process.env.APPLICAITON_REDIS_CHANNEL));
 
     this.redisClient.on("message", (channelClient, message) => {
       if (this._channel === channelClient) {
-        ClientsWebSocket.forEach((ws) => {
-          try {
-            ws.send(message);
-          } catch (error) {
-            console.error("Erro ao enviar via WebSocket:", error);
-          }
-        });
+        this.webSocket.broadcast(message);
       }
     });
   }

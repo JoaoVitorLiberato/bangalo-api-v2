@@ -1,6 +1,6 @@
 import { User } from "../../Domain/Entities/User.domain.entities";
 import { UserModel } from "../Database/Models/User.infrastructure.database.models";
-import { IUserRepository } from "../../Domain/Usecases/UserUseCase.domain.usecases.user";
+import { IUserRepository } from "../../Application/Usecases/UserUseCase.domain.application.user";
 
 export class UserRepository implements IUserRepository {
   async create (user: User): Promise<User|string> {

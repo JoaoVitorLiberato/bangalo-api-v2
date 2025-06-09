@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 import { ProductService } from "../../../Application/Services/ProductService.application.service";
 import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
-import { ProductUserCase, IProductRepository } from "../../../Domain/Usecases/ProductUserCase.domain.usecases";
+import { ProductUserCase, IProductRepository } from "../../../Application/Usecases/ProductUserCase.application.usecases";
 import { ProductRepository } from "../../../Infrastructure/Repositories/Product.infrastructure.repositories";
 
 // dependencia da storage

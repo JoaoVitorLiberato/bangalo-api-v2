@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { ProductFactory } from "../Factory/ProductFactory.domain.factory";
-import { Product } from "../Entities/Product.domain.entities";
+import { ProductFactory } from "../../Domain/Factory/ProductFactory.domain.factory";
+import { Product } from "../../Domain/Entities/Product.domain.entities";
 
 export interface IProductRepository {
   create (product: Product): Promise<string>;

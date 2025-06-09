@@ -1,5 +1,5 @@
 import { Context, Elysia, t } from "elysia";
-import { AutenticationController } from "../Controllers/AutenticationController.interfaces.http";
+import { AutenticationController } from "../Controllers/AutenticationController.presentation.http.controller";
 
 const route = new Elysia();
 const controller = new AutenticationController();

@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 import { AutenticationService } from "../../../Application/Services/AutenticationService.application.service";
-import { IAutenticationRepository, AutenticationUserCase } from "../../../Domain/Usecases/AutenticationUseCase.domain.usecases";
+import { IAutenticationRepository, AutenticationUserCase } from "../../../Application/Usecases/AutenticationUseCase.application.usecases";
 import { InternalNotificationServiceAdapter } from "../../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { AutenticationRepository } from "../../../Infrastructure/Repositories/Autentication.infrastructure.repositories";
 

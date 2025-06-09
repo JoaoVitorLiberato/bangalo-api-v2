@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { AutenticationUserCase } from "../../Domain/Usecases/AutenticationUseCase.domain.usecases";
+import { AutenticationUserCase } from "../Usecases/AutenticationUseCase.application.usecases";
 import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { User } from "../../Domain/Entities/User.domain.entities";
 import argon2 from "argon2";

@@ -1,6 +1,6 @@
 import "reflect-metadata"
 import { test, expect, describe } from "bun:test";
-import { UserUseCase } from "../../../src/Domain/Usecases/UserUseCase.domain.usecases.user";
+import { UserUseCase } from "../../../src/Application/Usecases/UserUseCase.domain.application.user";
 import { UserRepository } from "../../../src/Infrastructure/Repositories/User.infrastructure.repositories";
 import { User } from "../../../src/Domain/Entities/User.domain.entities";
 

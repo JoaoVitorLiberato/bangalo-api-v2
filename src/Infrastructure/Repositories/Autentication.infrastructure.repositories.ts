@@ -1,4 +1,4 @@
-import { IAutenticationRepository } from "../../Domain/Usecases/AutenticationUseCase.domain.usecases";
+import { IAutenticationRepository } from "../../Application/Usecases/AutenticationUseCase.application.usecases";
 import { UserModel } from "../Database/Models/User.infrastructure.database.models";
 import { User } from "../../Domain/Entities/User.domain.entities";
 

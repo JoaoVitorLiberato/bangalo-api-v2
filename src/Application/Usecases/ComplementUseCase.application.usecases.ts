@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
-import { Complement } from "../Entities/Complement.domain.entities";
-import { ComplementFactory } from "../Factory/ComplementFactory.domain.factory";
+import { Complement } from "../../Domain/Entities/Complement.domain.entities";
+import { ComplementFactory } from "../../Domain/Factory/ComplementFactory.domain.factory";
 
 export interface IComplementRepository {
   create: (complement: Complement) => Promise<Complement|string>;

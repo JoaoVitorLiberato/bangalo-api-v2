@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { Autentication } from "../Entities/Autentication.domain.entities";
-import { User } from "../Entities/User.domain.entities";
+import { Autentication } from "../../Domain/Entities/Autentication.domain.entities";
+import { User } from "../../Domain/Entities/User.domain.entities";
 
 export interface IAutenticationRepository {
   login: (email: string, password: string) => Promise<User|string>

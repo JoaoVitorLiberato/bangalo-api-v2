@@ -1,4 +1,4 @@
-import { IProductRepository } from "../../Domain/Usecases/ProductUserCase.domain.usecases";
+import { IProductRepository } from "../../Application/Usecases/ProductUserCase.application.usecases";
 import { Product } from "../../Domain/Entities/Product.domain.entities";
 import { ProductModel } from "../Database/Models/Product.infrastructure.database.models";
 

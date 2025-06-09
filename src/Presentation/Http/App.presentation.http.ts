@@ -1,18 +1,21 @@
 import { Elysia } from "elysia";
+import Redis from "ioredis";
 import { swagger } from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 import "reflect-metadata";
 import dotenv from "dotenv";
 import { ConnectDatabase } from "../../Infrastructure/Database/ConnectDb.infrastructure.database";
-import { RedisSubscribe } from "../../Infrastructure/Redis/Redis.Subscribe.infrastructure.redis";
 import { AutenticationApp } from "../../Infrastructure/Middlewares/AutenticationApp.infrastructure.middlewares";
+import { WebSocketAdapter } from "../../Infrastructure/Adapters/Internal/WebSocket/WebSocketAdapter.infrastructure.adapter";
+import { RedisSubscribe } from "../../Infrastructure/Redis/Redis.Subscribe.infrastructure.redis";
 
-import { RouteOrder } from "./Routes/Order.interfaces.http.routes";
-import { RouteUser } from "./Routes/User.interfaces.http.routes";
-import { RouteAutentication } from "./Routes/Autentication.interfaces.http.routes";
-import { RouteComplement } from "./Routes/Complement.interfaces.http.routes";
-import { RouteCategory } from "./Routes/Category.interfaces.http.routes";
-import { ProductRoutes } from "./Routes/Product.interfaces.http.routes";
+import { RouteOrder, ClientsWebSocket } from "./Routes/Order.presentation.http.routes";
+import { RouteUser } from "./Routes/User.presentation.http.routes";
+import { RouteAutentication } from "./Routes/Autentication.presentation.http.routes";
+import { RouteComplement } from "./Routes/Complement.presentation.http.routes";
+import { RouteCategory } from "./Routes/Category.presentation.http.routes";
+import { RouteProduct } from "./Routes/Product.presentation.http.routes";
+import { RouteGateway } from "./Routes/Gateway.presentation.http.routes";
 
 dotenv.config()
 export const App = new Elysia()
@@ -20,10 +23,15 @@ export const App = new Elysia()
 
 ConnectDatabase()
 
-const setupOrderNotifications = new RedisSubscribe()
-setupOrderNotifications.subscribe()
+App.use(cors({
+  origin: "http://bangalosushi.app.br",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  maxAge: 600,
+  preflight: true
+}))
 
-App.use(cors())
 App.use(
   swagger({
     documentation: {
@@ -62,11 +70,19 @@ App.use(
   })
 )
 
-App.group("", app => app
-  .use(RouteUser)
-  .use(RouteOrder)
-  .use(RouteComplement)
-  .use(RouteCategory)
-  .use(ProductRoutes)
-  .use(RouteAutentication)
+App.group("", (app) => 
+  app
+    .use(RouteUser)
+    .use(RouteOrder)
+    .use(RouteComplement)
+    .use(RouteCategory)
+    .use(RouteProduct)
+    .use(RouteGateway)
+    .use(RouteAutentication)
 );
+
+// WebSocket
+const webSocketAdapter = new WebSocketAdapter(ClientsWebSocket);
+const redisClient = new Redis({ host: "redis", port: 6379 });
+const setupOrderNotifications = new RedisSubscribe(redisClient, webSocketAdapter)
+setupOrderNotifications.subscribe()

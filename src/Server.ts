@@ -1,4 +1,4 @@
-import { App } from "./Interfaces/Http/App.interfaces.http";
+import { App } from "./Presentation/Http/App.presentation.http";
 
 App.get("/", () => "Hello Elysia")
   .listen(String(process.env.APPLICATION_PORT));
