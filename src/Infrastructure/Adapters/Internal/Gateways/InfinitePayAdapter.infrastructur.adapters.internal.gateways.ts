@@ -2,7 +2,7 @@ import { ICheckoutGateway } from "../../../../Domain/Ports/CheckoutGeteway/Check
 import { Order } from "../../../../Domain/Entities/Order.domain.entities";
 import { InternalNotificationServiceAdapter } from "../Notifications/InternalNotificationAdapter.infrastructure.adapters";
 
-export class InfinityPayAdapter  implements ICheckoutGateway {
+export class InfinitePayAdapter  implements ICheckoutGateway {
   private readonly notify = new InternalNotificationServiceAdapter();
 
   async create (order: Order): Promise<any> {
