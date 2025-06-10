@@ -27,6 +27,13 @@ interface IOrderFactoryProps {
     valorProdutos: number,
     valorTotal: number,
     desconto: number
+    recebido?: {
+      capture_method: string,
+      transaction_id: string,
+      slug: string,
+      order_nsu: string,
+      receipt_url: string
+    }
   },
   endereco: {
     cep: string,

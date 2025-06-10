@@ -22,6 +22,7 @@ router.get("/order/today/:phone",
     },
     response: {
       200: t.Array(t.Object({
+        id: t.String(),
         nome: t.String(),
         telefone: t.String(),
         mensagem: t.String(),
@@ -40,6 +41,11 @@ router.get("/order/today/:phone",
           valorFrete: t.Number(),
           valorProdutos: t.Number(),
           valorTotal: t.Number(),
+          recebido: t.Optional(
+            t.Object({
+              receipt_url: t.String(),
+            })
+          )
         }),
         createdAt: t.Date(),
         updatedAt: t.Date(),
@@ -188,6 +194,9 @@ router
             valorProdutos: t.Number(),
             valorTotal: t.Number(),
             desconto: t.Number(),
+            recebido: t.Optional(t.Object({
+              receipt_url: t.String(),
+            }))
           }),
           endereco: t.Object({
             cep: t.String(),
@@ -258,6 +267,11 @@ router
             valorProdutos: t.Number(),
             valorTotal: t.Number(),
             desconto: t.Number(),
+            recebido: t.Optional(
+              t.Object({
+                receipt_url: t.String(),
+              })
+            )
           }),
           endereco: t.Object({
             cep: t.String(),
@@ -327,6 +341,11 @@ router
             valorProdutos: t.Number(),
             valorTotal: t.Number(),
             desconto: t.Number(),
+            recebido: t.Optional(
+              t.Object({
+                receipt_url: t.String(),
+              })
+            )
           }),
           endereco: t.Object({
             cep: t.String(),

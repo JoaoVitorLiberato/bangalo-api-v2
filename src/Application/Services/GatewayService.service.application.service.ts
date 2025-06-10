@@ -68,13 +68,15 @@ export class GatewayService {
         });
       }
 
+      console.log("responseGateway", responseGateway);
       const responseUpdateOrderService = await this.order.update(
         String(data.order_nsu) as string,
         {
           ...responseOrderService as Order,
           pagamento: {
             ...(responseOrderService as Order).pagamento,
-            statusPagamento: "pago"
+            statusPagamento: "pago",
+            recebido: data
           }
         }
       );

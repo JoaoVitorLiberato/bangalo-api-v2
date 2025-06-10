@@ -26,6 +26,13 @@ export class Order {
       valorFrete: number,
       valorProdutos: number,
       valorTotal: number,
+      recebido?: {
+        capture_method: string,
+        transaction_id: string,
+        slug: string,
+        order_nsu: string,
+        receipt_url: string
+      }
     },
     public endereco: {
       cep: string,
