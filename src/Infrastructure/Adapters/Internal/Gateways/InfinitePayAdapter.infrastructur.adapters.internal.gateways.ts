@@ -1,6 +1,7 @@
 import { injectable } from "tsyringe";
 import axios from "axios";
 import { IGatewayPort } from "../../../../Domain/Ports/Gateways/GatewayPort.domain.ports.gateways";
+import { GatewayValidate } from "../../../../Domain/Entities/GatewayValidate.domain.entities";
 import { Order } from "../../../../Domain/Entities/Order.domain.entities";
 import { InternalNotificationServiceAdapter } from "../Notifications/InternalNotificationAdapter.infrastructure.adapters";
 
@@ -40,15 +41,17 @@ export class InfinitePayAdapter implements IGatewayPort {
     }
   }
 
-  async validate (data: any): Promise<any> {
+  async validate (data: GatewayValidate): Promise<any> {
     try {
       const { transaction_id, slug, order_nsu } = data;
-      const responseInfinitePay = await axios.get(`${process.env.INFINITE_PAY_API}/${process.env.INFINITE_PAY_HANDLE}transaction_nsu=${transaction_id}&slug=${slug}&external_order_nsu=${order_nsu}`)
+
+      const responseInfinitePay = await axios.get(`${process.env.INFINITE_PAY_API}/${process.env.INFINITE_PAY_HANDLE}?transaction_nsu=${transaction_id}&slug=${slug}&external_order_nsu=${order_nsu}`)
+
       return await this.notify.send({
         ...responseInfinitePay.data
       });
-    } catch (error) {
-      console.error("[ERROR InfinitePayAdapter - validate]", error);
+    } catch (error: unknown) {
+      console.error("[ERROR InfinitePayAdapter - validate]", error instanceof Error ? error.message : 'Unknown error');
       return await this.notify.send({
         codigo: "error-validate-payment-adapter"
       });

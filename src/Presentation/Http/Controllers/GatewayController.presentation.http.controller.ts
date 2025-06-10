@@ -28,6 +28,7 @@ export class GatewayController {
       const responseService = await this._service.validate(body as GatewayValidate);
 
       if (/^(error-validate-payment-link)$/i.test(responseService.codigo)) set.status = 400;
+      if (/^(order-not-found|payment-not-found)$/i.test(responseService.codigo)) set.status = 404;
 
       return responseService;
 

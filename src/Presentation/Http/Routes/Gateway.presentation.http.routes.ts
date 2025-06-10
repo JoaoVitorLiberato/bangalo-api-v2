@@ -29,6 +29,8 @@ const router = new Elysia()
         transaction_id: t.String(),
         slug: t.String(),
         order_nsu: t.String(),
+        capture_method: t.String(),
+        receipt_url: t.String(),
       })
     }
   )

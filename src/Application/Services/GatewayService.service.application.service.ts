@@ -42,27 +42,38 @@ export class GatewayService {
 
   async validate (data: GatewayValidate): Promise<any> {
     try {
+      const responseOrderService = await this.order.viewById(data.order_nsu as string);
+      if (responseOrderService && ("codigo" in responseOrderService) && /^(error-order-not-found)$/i.test(responseOrderService.codigo as string)) {
+        return await this.notify.send({
+          codigo: "order-not-found",
+          mensagem: "Pedido não encontrado"
+        });
+      }
+
       const responseGateway = await this.gateway.validate(data);
       if (/^(error-validate-payment-adapter)$/i.test(responseGateway.codigo)) throw new Error("Erro ao buscar dados do pagamento");
 
-      const responseOrderService = await this.order.viewById(data.order_nsu as string);
-      if (!responseOrderService) throw new Error("Pedido não encontrado");
-
       if (
         ![
+          responseOrderService && "pagamento" in responseOrderService,
           responseGateway,
-          responseGateway.paid,
           responseGateway.success,
-          Number(responseGateway.amount) === Number(responseOrderService.pagamento.valorTotal),
+          responseGateway.paid,
+          Number(responseGateway.amount) === Number(responseOrderService?.pagamento.valorTotal),
         ].every(o => !!o)
-      ) throw new Error("Pagamento não encontrado");
+      ) {
+        return await this.notify.send({
+          codigo: "payment-not-found",
+          mensagem: "Pagamento não encontrado, entre em contato com a loja caso tenha pago."
+        });
+      }
 
       const responseUpdateOrderService = await this.order.update(
         String(data.order_nsu) as string,
         {
-          ...responseOrderService,
+          ...responseOrderService as Order,
           pagamento: {
-            ...responseOrderService.pagamento,
+            ...(responseOrderService as Order).pagamento,
             statusPagamento: "pago"
           }
         }
