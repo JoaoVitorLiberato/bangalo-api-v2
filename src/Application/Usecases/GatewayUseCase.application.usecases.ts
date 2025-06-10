@@ -1,6 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { IGatewayPort } from "../../Domain/Ports/Gateways/GatewayPort.domain.ports.gateways";
 import { Order } from "../../Domain/Entities/Order.domain.entities";
+import { GatewayValidate } from "../../Domain/Entities/GatewayValidate.domain.entities";
+import { GatewayValidateFactory } from "../../Domain/Factory/GatewayValidateFactory.domain.factory";
 
 interface IGatewayUse extends IGatewayPort {}
 
@@ -13,7 +15,8 @@ export class GatewayUseCase {
     return await this.gateway.create(order);
   }
 
-  async validate (data: any): Promise<any> {
-    return await this.gateway.validate(data);
+  async validate (data: GatewayValidate): Promise<any> {
+    const dto = GatewayValidateFactory.save(data);
+    return await this.gateway.validate(dto);
   }
 }

@@ -1,5 +1,3 @@
-import { Complement } from "./Complement.domain.entities"
-
 export class Product {
   constructor (
     public tumbnail: {

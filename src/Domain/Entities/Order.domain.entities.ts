@@ -1,5 +1,3 @@
-import { Product } from "./Product.domain.entities"
-
 export class Order {
   constructor (
     public canal: string,

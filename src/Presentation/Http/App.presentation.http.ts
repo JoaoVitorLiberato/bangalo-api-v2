@@ -47,6 +47,7 @@ App.use(
         { name: "Complement", description: "Rotas de complementos" },
         { name: "Category", description: "Rotas de categorias" },
         { name: "Product", description: "Rotas de produtos" },
+        { name: "Gateway", description: "Rotas de pagamento" },
       ],
       components: {
         securitySchemes: {
