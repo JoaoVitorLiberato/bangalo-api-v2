@@ -25,7 +25,7 @@ export class GatewayService {
       };
 
       const responseGateway = await this.gateway.execute(responseOrderService);
-      
+
       if (/^(error-generate-link-payment-infinity-pay)$/i.test(responseGateway.codigo)) throw new Error("Erro ao gerar link de pagamento");
 
       return await this.notify.send({
@@ -68,7 +68,6 @@ export class GatewayService {
         });
       }
 
-      console.log("responseGateway", responseGateway);
       const responseUpdateOrderService = await this.order.update(
         String(data.order_nsu) as string,
         {
