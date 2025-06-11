@@ -7,7 +7,6 @@ import { Order } from "../../../Domain/Entities/Order.domain.entities";
 
 // Dependencies
 import "../../../Shared/Containers/Controllers/OrderContainer.shared.containers.controller"
-import { formatDateToYYYYMMDDMinusDay, formattedDate } from "../../../Shared/Utils/FormatDateToYYYYMMDD.shared.utils";
 
 export class OrderController {
   private _service = container.resolve(OrderService)
@@ -32,7 +31,7 @@ export class OrderController {
     try {
       const ResponseService = await this._service.views();
       if (/^(error-views-order)$/i.test(String(ResponseService.codigo))) set.status = 400;
-      console.log("teste", formatDateToYYYYMMDDMinusDay)
+
       return ResponseService;
     } catch (error) {
       set.status = 500;
