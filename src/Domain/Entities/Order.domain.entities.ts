@@ -51,5 +51,7 @@ export class Order {
       params: Record<string, string|number|boolean>
     },
     public id?: string,
+    public createdAt?: string,
+    public updatedAt?: string,
   ) {}
 }

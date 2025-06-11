@@ -18,37 +18,11 @@ services:
       - APPLICATION_PORT=3000
       - NODE_ENV=development
       - STORAGE_SERVICE=http://storage:4000/v1
-      - APPLICATION_DB_INTEGRATION=postgresql://neondb_owner:npg_PaYA6xBLQW7s@ep-crimson-snowflake-ac5qnufb-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require
+      - APPLICATION_DB_INTEGRATION=postgresql://jo_o:LF8e-06xGSReGCxmLwoWHA@jade-boxer-6962.jxf.gcp-southamerica-east1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full
       - APPLICATION_DB_INTEGRATION_DIALECT=postgres
-      # - MARIADB_USER=application
-      # - MARIADB_DATABASE=bangalo
-      # - MARIADB_ROOT_PASSWORD=da21zg53
-      # - MARIADB_PASSWORD=da21zg52
-      # - MARIADB_PORT=3306
-      # - MARIADB_DIALECT=mariadb
-      # - MARIADB_HOST=database
     depends_on:
       - storage
       - redis
-      # - database
-  # database:
-  #   image: mariadb:10.5
-  #   container_name: database
-  #   command: --innodb-use-native-aio=0
-  #   ports:
-  #     - 3306:3306
-  #   volumes:
-  #     - ./cache/database:/var/lib/mysql
-  #   networks:
-  #     - bangalo
-  #   environment:
-  #     - MARIADB_USER=application
-  #     - MARIADB_DATABASE=bangalo
-  #     - MARIADB_PASSWORD=da21zg52
-  #     - MARIADB_ROOT_PASSWORD=da21zg53
-  #     - TZ=America/Sao_Paulo
-  #   tty: true
-  #   restart: unless-stopped
   storage:
     build:
       context: ./plugins/storage

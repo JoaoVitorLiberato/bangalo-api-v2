@@ -51,6 +51,8 @@ interface IOrderFactoryProps {
     campaign: string,
     params: Record<string, string|number|boolean>
   },
+  createdAt: string,
+  updatedAt: string
 }
 
 function validate (data: IOrderFactoryProps): string|boolean {
@@ -140,6 +142,8 @@ export class OrderFactory {
     const PAGAMENTO = data.pagamento;
     const ENDERECO = data.endereco;
     const ANALYTICS = data.analytics;
+    const CREATED_AT = data.createdAt;
+    const UPDATED_AT = data.updatedAt;
 
     return new Order(
       CANAL,
@@ -151,7 +155,9 @@ export class OrderFactory {
       PRODUTOS,
       PAGAMENTO,
       ENDERECO,
-      ANALYTICS
+      ANALYTICS,
+      CREATED_AT,
+      UPDATED_AT
     );
   }
 }

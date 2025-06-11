@@ -2,14 +2,23 @@ import { Op } from "sequelize";
 import { Order } from "../../Domain/Entities/Order.domain.entities";
 import { IOrderRepository } from "../../Application/Usecases/OrderUsecase.application.usecases";
 import { OrderModel } from "../Database/Models/Order.infrastructure.database.models";
-import { formatDateToYYYYMMDD } from "../../Shared/Utils/FormatDateToYYYYMMDD.shared.utils";
+
+import { 
+  formatDateToYYYYMMDD,
+  formatDateToYYYYMMDDPlusDay,
+  formatDateToYYYYMMDDMinusDay
+} from "../../Shared/Utils/FormatDateToYYYYMMDD.shared.utils";
 
 export class OrderRepository implements IOrderRepository {
   private readonly today = formatDateToYYYYMMDD;
+  private readonly nextDay = formatDateToYYYYMMDDPlusDay;
 
   async create (order: Order):Promise<string|Order> {
     return new Promise((resolve) => {
-      OrderModel.create({ ...order })
+      OrderModel.create({
+        ...order,
+        createdAt: formatDateToYYYYMMDDMinusDay,
+      })
         .then((responseModel) => resolve(responseModel as unknown as Order))
         .catch((error) => {
           console.error("ERROR - OrderRepository - create", error);
@@ -46,7 +55,7 @@ export class OrderRepository implements IOrderRepository {
         where: { 
           telefone: phone,
           createdAt: {
-            [Op.between]: [`${this.today}T00:00:00`, `${this.today}T23:59:59`]
+            [Op.between]: [`${this.today}T16:00:00`, `${this.nextDay}T03:59:59`]
           }
         }
       })
@@ -62,7 +71,7 @@ export class OrderRepository implements IOrderRepository {
       OrderModel.findAll({ 
         where: {
           createdAt: {
-            [Op.between]: [`${this.today}T00:00:00`, `${this.today}T23:59:59`]
+            [Op.between]: [`${this.today}T16:00:00`, `${this.nextDay}T03:59:59`]
           }
         }
       })
