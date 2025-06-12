@@ -1,12 +1,15 @@
 version: '3'
 services:
-  whatsapp-bot:
-    container_name: whatsapp-bot
+  chatbot:
+    container_name: chatbot
+    image: joaovitor98/chatbot-app
     build: .
     ports:
-      - "4001:4001"
+      - "5000:5000"
     volumes:
       - ./auth_data:/usr/src/app/auth_data
+      - ./:/app
     environment:
       - NODE_ENV=development
-    restart: unless-stopped 
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    restart: unless-stopped

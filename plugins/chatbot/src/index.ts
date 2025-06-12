@@ -11,7 +11,7 @@ const MY_NUMBER = "5521967559557@c.us";
 const client = new Client({
   puppeteer: {
     headless: true,
-    executablePath: '/usr/bin/chromium-browser',
+    executablePath: '/usr/bin/chromium',
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -39,8 +39,8 @@ app.get("/", () => {
 });
 
 // Rota para enviar um novo pedido
-app.post("/order", async ({ body, set }) => {
-  const { to, text } = body as { to?: string; text?: string };
+app.post("/send", async ({ body, set }) => {
+  const { to, text } = body as { to?: string; text?: string | object };
 
   if (!text) {
     set.status = 400;
@@ -50,12 +50,19 @@ app.post("/order", async ({ body, set }) => {
   // Se 'to' não for fornecido, usa o número padrão
   const targetNumber = to ? `${to.replace(/\D/g, '')}@c.us` : MY_NUMBER;
 
+  let messageText: string;
+  if (typeof text === "object") {
+    messageText = formatOrderMessage(text);
+  } else {
+    messageText = text;
+  }
+
   try {
     if (!client.info) {
       set.status = 503; // Service Unavailable
       return { success: false, message: "WhatsApp não está conectado." };
     }
-    await client.sendMessage(targetNumber, text);
+    await client.sendMessage(targetNumber, messageText);
     console.log(`✅ Mensagem enviada para ${targetNumber}`);
     return { success: true, message: `Pedido enviado para ${targetNumber}` };
   } catch (error) {
@@ -94,7 +101,7 @@ client.on('ready', async () => {
     console.error('❌ Erro ao enviar mensagem de inicialização:', error);
   }
 
-  app.listen(4001);
+  app.listen(5000);
   console.log(`🚀 Servidor rodando em http://${app.server?.hostname}:${app.server?.port}`);
 });
 
@@ -103,10 +110,29 @@ client.on('disconnected', (reason) => {
   console.log('❌ WhatsApp desconectado:', reason);
 });
 
+// Evento para receber mensagens do WhatsApp
+client.on('message', async (msg) => {
+  console.log('📩 Mensagem recebida:', msg.body);
+  // Lógica de pedidos: se a mensagem começar com "pedido:", registra/loga e responde
+  if (msg.body.toLowerCase().startsWith('pedido:')) {
+    // Aqui você pode salvar o pedido em um banco, enviar para outro serviço, etc.
+    console.log('📝 Pedido recebido:', msg.body);
+    await msg.reply('✅ Pedido recebido! Em breve entraremos em contato.');
+  }
+});
+
 // Inicializa o cliente
 console.log('⌛ Iniciando bot...');
 client.initialize();
 
+// Ping periódico para checar conexão com WhatsApp
+setInterval(() => {
+  if (client.info) {
+    console.log('✅ WhatsApp ainda está conectado.');
+  } else {
+    console.log('❌ WhatsApp NÃO está conectado!');
+  }
+}, 15_000); // a cada 15 segundos
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || "redis",
@@ -143,3 +169,34 @@ redis.on("message", async (channel, message) => {
 redis.on('error', (err) => {
   console.error('Erro de conexão com Redis:', err);
 });
+
+function formatOrderMessage(order: any): string {
+  const endereco = order.endereco;
+  const produtos = order.produtos.map((p: any) => {
+    const comps = p.complements?.map((c: any) => `    - ${c.name} (${c.quantity}x)`).join('\n') || '';
+    return `- ${p.name} (${p.quantity}x)\n${comps}`;
+  }).join('\n');
+
+  return (
+    `*Novo Pedido Recebido!*\n` +
+    `🍽️ *Segmento:* ${order.segmento}\n` +
+    `📲 *Canal:* ${order.canal}\n\n` +
+    `👤 *Nome:* ${order.nome}\n` +
+    `📞 *Telefone:* ${order.telefone.replace(/^(\d{2})(\d{2})(\d{5})(\d{4})$/, '$1 $2 $3-$4')}\n\n` +
+    `🏠 *Endereço:*\n` +
+    `${endereco.logradouro}, ${endereco.numero}, ${endereco.bairro}\n` +
+    `${endereco.cidade} - ${endereco.uf}\n` +
+    `CEP: ${endereco.cep}\n` +
+    `Complemento: ${endereco.complemento}\n` +
+    `Referência: ${endereco.referencia}\n\n` +
+    `🛒 *Produtos:*\n${produtos}\n\n` +
+    `💬 *Mensagem do cliente:*\n${order.mensagem}\n\n` +
+    `💰 *Pagamento:*\n` +
+    `- Forma: ${order.pagamento.formaPagamento}\n` +
+    `- Valor Produtos: R$ ${(order.pagamento.valorProdutos / 100).toFixed(2)}\n` +
+    `- Frete: R$ ${(order.pagamento.valorFrete / 100).toFixed(2)}\n` +
+    `- Desconto: R$ ${(order.pagamento.desconto / 100).toFixed(2)}\n` +
+    `- **Total:** R$ ${(order.pagamento.valorTotal / 100).toFixed(2)}\n` +
+    `- Status: ${order.pagamento.statusPagamento}`
+  );
+}

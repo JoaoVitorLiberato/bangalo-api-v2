@@ -2,9 +2,10 @@
   "name": "chatbox",
   "version": "1.0.50",
   "scripts": {
+    "build": "bun build src/index.ts --outfile ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rm -rf ./auth_data && redis-server --daemonize yes && bun run src/index.ts",
-    "dev": "rm -rf ./auth_data qrcode.png && redis-server --daemonize yes && bun run --watch src/index.ts"
+    "dev": "PORT=5000 rm -rf ./auth_data qrcode.png && bun run --watch src/index.ts"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.5",

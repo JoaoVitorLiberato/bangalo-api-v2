@@ -1,2 +1,2 @@
-2025/06/10-17:33:05.079 461d7 Creating DB /root/workspace/frelas/bangalo-app-api/plugins/chatbox/auth_data/session-bot-pedidos/Default/Service Worker/Database since it was missing.
-2025/06/10-17:33:05.097 461d7 Reusing MANIFEST /root/workspace/frelas/bangalo-app-api/plugins/chatbox/auth_data/session-bot-pedidos/Default/Service Worker/Database/MANIFEST-000001
+2025/06/12-08:08:59.388 25 Creating DB /app/auth_data/session-bot-pedidos/Default/Service Worker/Database since it was missing.
+2025/06/12-08:08:59.402 25 Reusing MANIFEST /app/auth_data/session-bot-pedidos/Default/Service Worker/Database/MANIFEST-000001
