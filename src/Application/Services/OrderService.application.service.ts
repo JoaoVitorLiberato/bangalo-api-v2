@@ -5,13 +5,15 @@ import { OrderUseCase } from "../Usecases/OrderUsecase.application.usecases";
 import { InternalNotificationServiceAdapter } from "../../Infrastructure/Adapters/Internal/Notifications/InternalNotificationAdapter.infrastructure.adapters";
 import { RedisPublish } from "../../Infrastructure/Redis/RedisPublish.infrastructure.redis";
 import { IOrderServices } from "../Contracts/IOrderServices.application.contracts";
+import { ChatbotNotificationUseCase } from "../Usecases/ChatbotUserCase.applicaiton.usecases";
 
 @injectable()
 export class OrderService implements IOrderServices {
   constructor (
     private _service: OrderUseCase,
     private notify: InternalNotificationServiceAdapter,
-    private redisPublish: RedisPublish
+    private redisPublish: RedisPublish,
+    private chatbot: ChatbotNotificationUseCase
   ) {}
 
   async create (order: Order): Promise<any> {
@@ -20,6 +22,7 @@ export class OrderService implements IOrderServices {
       if (/^(error-create-order-model)$/i.test(String(responseRepository))) throw new Error("Houve um erro ao tentar criar um pedido.");
 
       await this.redisPublish.publish(responseRepository as Order);
+      await this.chatbot.send(responseRepository as Order)
 
       return await this.notify.send({
         mensagem: "Produco criado com sucesso",

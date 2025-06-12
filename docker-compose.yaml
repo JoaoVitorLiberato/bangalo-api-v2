@@ -30,6 +30,7 @@ services:
     depends_on:
       - storage
       - redis
+      - chatbot
       # - database
   # database:
   #   image: mariadb:10.5
@@ -76,6 +77,24 @@ services:
     volumes:
       - /cache/redis:/data
     command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+  chatbot:
+    container_name: chatbot
+    build:
+      context: ./plugins/chatbot
+      dockerfile: Dockerfile
+    image: joaovitor98/chatbot-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./plugins/chatbot/auth_data:/usr/src/app/auth_data
+      - ./plugins/chatbot:/app
+    environment:
+      - NODE_ENV=development
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    tty: true
+    networks:
+      - bangalo
+    restart: unless-stopped
   nginx:
     build:
       context: ./nginx
