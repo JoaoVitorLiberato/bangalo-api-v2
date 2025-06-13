@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { WhatsAppChat } from "../../Infrastructure/Chats/Wpp/WhatsChat.infrastructure.chats.wpp";
 import { ClientWhatsAppChat } from "../../Infrastructure/Chats/Wpp/ClientWhatAppChat.infrastructure.chats.wpp";
 import { ChatBotWhatsAppRouter } from "./Routes/ChatbotWhatsAppRouter.presentation.http.routes";
+import { ChatbotTelegramRouter } from "./Routes/ChatbotTelegramRouter.presentation.http.routes";
 
 dotenv.config()
 
@@ -13,13 +14,15 @@ const App = new Elysia()
   .group("", (app) =>
     app
       .use(ChatBotWhatsAppRouter)
+      .use(ChatbotTelegramRouter)
   )
   .listen({
     hostname: "0.0.0.0",
     port: String(process.env.APPLICATION_PORT)
   });
 
-// Inicializa o cliente
+
+// Inicializa o cliente WhatsApp
 console.log('⌛ Iniciando bot...');
 WhatsChatApp.generateConnectWhatChat();
 

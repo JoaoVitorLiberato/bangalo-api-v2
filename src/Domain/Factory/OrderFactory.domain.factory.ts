@@ -1,61 +1,6 @@
 import { Order } from "../Entities/Order.domain.entities";
 
-interface IOrderFactoryProps {
-  canal: string,
-  nome: string,
-  segmento: string,
-  status: string,
-  telefone: string,
-  mensagem: string,
-  produtos: Array<{
-    id: string,
-    name: string,
-    price: number,
-    quantity: number,
-    total: number,
-    complements: Array<{
-      id: string,
-      name: string,
-      price: number,
-      quantity: number,
-    }>,
-  }>,
-  pagamento: {
-    formaPagamento: string,
-    statusPagamento: string,
-    valorFrete: number,
-    valorProdutos: number,
-    valorTotal: number,
-    desconto: number
-    recebido?: {
-      capture_method: string,
-      transaction_id: string,
-      slug: string,
-      order_nsu: string,
-      receipt_url: string
-    }
-  },
-  endereco: {
-    cep: string,
-    logradouro: string,
-    bairro: string,
-    cidade: string,
-    uf: string,
-    numero: string,
-    complemento: string,
-    referencia: string
-  },
-  analytics: {
-    source: string,
-    medium: string,
-    campaign: string,
-    params: Record<string, string|number|boolean>
-  },
-  createdAt: string,
-  updatedAt: string
-}
-
-function validate (data: IOrderFactoryProps): string|boolean {
+function validate (data: Order): string|boolean {
   if (!data.canal || typeof data.canal !== 'string' || data.canal.trim() === '') {
     return "Canal é obrigatório";
   }
@@ -126,7 +71,7 @@ function validate (data: IOrderFactoryProps): string|boolean {
 }
 
 export class OrderFactory {
-  static save (data: IOrderFactoryProps): Order {
+  static save (data: Order): Order {
     const VALIDATION = validate(data);
     if (typeof VALIDATION === "string") {
       throw new Error(VALIDATION);

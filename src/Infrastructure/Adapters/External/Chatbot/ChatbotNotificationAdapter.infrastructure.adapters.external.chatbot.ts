@@ -5,9 +5,9 @@ import axios from "axios";
 
 @injectable()
 export class ChatbotNotificationAdapter implements IChatbotNotificationPort {
-  async send(order: Order): Promise<void> {
+  async send(path: string, order: Order): Promise<void> {
     try {
-      await axios.post(`${process.env.CHATBOT_SERVICE}/send`,
+      await axios.post(`${process.env.CHATBOT_SERVICE}/${path}`,
         {
           text: order,
           to: ""

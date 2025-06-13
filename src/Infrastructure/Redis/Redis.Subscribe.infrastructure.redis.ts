@@ -13,7 +13,7 @@ export class RedisSubscribe implements IEventSubscribe {
   async subscribe (): Promise<void> {
     await this.redisClient.subscribe(String(process.env.APPLICAITON_REDIS_CHANNEL));
 
-    this.redisClient.on("message", (channelClient, message) => {
+    this.redisClient.on("message", (channelClient: any, message:any) => {
       if (this._channel === channelClient) {
         this.webSocket.broadcast(message);
       }

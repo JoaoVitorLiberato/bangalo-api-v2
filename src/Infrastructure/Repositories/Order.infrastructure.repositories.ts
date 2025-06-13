@@ -3,7 +3,7 @@ import { Order } from "../../Domain/Entities/Order.domain.entities";
 import { IOrderRepository } from "../../Application/Usecases/OrderUsecase.application.usecases";
 import { OrderModel } from "../Database/Models/Order.infrastructure.database.models";
 
-import { 
+import {
   formatDateToYYYYMMDD,
   formatDateToYYYYMMDDPlusDay,
   formatDateToYYYYMMDDMinusDay
@@ -51,11 +51,12 @@ export class OrderRepository implements IOrderRepository {
 
   async viewByPhone (phone: string): Promise<Order[]|string> {
     return new Promise((resolve) => {
-      OrderModel.findAll({ 
-        where: { 
+      console.log(`anntes ${this.today} depois ${this.nextDay}`)
+      OrderModel.findAll({
+        where: {
           telefone: phone,
           createdAt: {
-            [Op.between]: [`${this.today}T16:00:00`, `${this.nextDay}T03:59:59`]
+            [Op.between]: [`${this.today}T04:00:00`, `${this.nextDay}T03:59:59`]
           }
         }
       })
@@ -68,7 +69,7 @@ export class OrderRepository implements IOrderRepository {
   }
   async viewToday (): Promise<Order[]|string> {
     return new Promise((resolve) => {
-      OrderModel.findAll({ 
+      OrderModel.findAll({
         where: {
           createdAt: {
             [Op.between]: [`${this.today}T16:00:00`, `${this.nextDay}T03:59:59`]

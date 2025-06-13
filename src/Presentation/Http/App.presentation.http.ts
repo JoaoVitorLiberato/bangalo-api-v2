@@ -71,7 +71,7 @@ App.use(
   })
 )
 
-App.group("", (app) => 
+App.group("", (app) =>
   app
     .use(RouteUser)
     .use(RouteOrder)

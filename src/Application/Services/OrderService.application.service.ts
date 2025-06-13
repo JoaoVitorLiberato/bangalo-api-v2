@@ -22,7 +22,8 @@ export class OrderService implements IOrderServices {
       if (/^(error-create-order-model)$/i.test(String(responseRepository))) throw new Error("Houve um erro ao tentar criar um pedido.");
 
       await this.redisPublish.publish(responseRepository as Order);
-      await this.chatbot.send(responseRepository as Order)
+      await this.chatbot.send("tel/send", responseRepository as Order)
+      await this.chatbot.send("wpp/send", responseRepository as Order)
 
       return await this.notify.send({
         mensagem: "Produco criado com sucesso",

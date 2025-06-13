@@ -10,7 +10,7 @@ export class ChatbotNotificationUseCase {
     @inject("IChatbotNotificationPort") private chatbot: IChatbotNotification
   ) {}
 
-  async send (order: Order): Promise<void> {
-    return await this.chatbot.send(order)
+  async send (path: string, order: Order): Promise<void> {
+    return await this.chatbot.send(path, order)
   }
 }
