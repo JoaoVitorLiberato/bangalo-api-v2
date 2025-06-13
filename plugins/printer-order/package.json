@@ -1,0 +1,21 @@
+{
+  "name": "api-printer-orders",
+  "version": "1.0.50",
+  "scripts": {
+    "build": "bun build src/index.ts --compile --outfile=app.exe",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.3.3",
+    "@elysiajs/swagger": "^1.3.0",
+    "dotenv": "^16.5.0",
+    "elysia": "latest",
+    "node-thermal-printer": "^4.4.5",
+    "pdfkit": "^0.17.1"
+  },
+  "devDependencies": {
+    "@types/pdfkit": "^0.13.9",
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
